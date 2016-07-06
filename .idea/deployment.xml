@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="dell" uploadOnCheckin="e13a2031-0249-4bc0-8db0-d401d53dc3e0">
+    <serverData>
+      <paths name="dell">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/hqyone/workspace/Targeting" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myUploadOnCheckinName" value="dell" />
+  </component>
+</project>
