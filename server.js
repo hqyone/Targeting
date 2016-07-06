@@ -6,16 +6,23 @@ var express  = require("express");
 //var session = require('express-session');     //For user authorization
 var path = require("path");
 var bodyParser = require("body-parser");
-var fs =  require('fs');
+//var fs =  require('fs');
 var csv = require("fast-csv");
-var http = require('http');
-var url = require('url');
+//var http = require('http');
+//var url = require('url');
 
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
 
 var flash = require('express-flash');
 var commander = require('./js/tools/command.js');
+
+
+//Global settings:
+Targeting={};
+Targeting.project_dir = __dirname;
+Targeting.ds = {};
+Targeting.divs = {}; //The div server, it is the key component to generate visualization
 
 //Configure the local strategy for use by Passport
 // The local strategy require a `verify` function which receives the credentials
