@@ -56,3 +56,11 @@ var tcga_drug_feature_ls=[
     "year_of_form_completion",
     "case_id"
 ]
+
+var getRootPath = function(xml_obj, keyword){
+
+}
+
+var getXMLValue = function(xml_obj, attr_ls){
+
+}
