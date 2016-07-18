@@ -253,7 +253,9 @@ TCGA_Patient.prototype.loading=function(filename){
             //Get tcga_patient object
 
             var label_ls = getPatientPath(result, "patient");
-            var xmlobjs = getXMLObjects(result,label_ls[0]);
+            var tcga_objs = getXMLObjects(result,label_ls[0]);
+            var patient_objs = getXMLObjects(tcga_objs[0],":patient");
+            var vital_statue_obj =  getXMLObjects(patient_objs[0],"vital_status");
             for (var i=0; i<tcga_patient_feature_ls.length; i++){
                 var feature = tcga_patient_feature_ls[i];
                 var attr_name = tcga_patient_xml_attr_dic[feature];
