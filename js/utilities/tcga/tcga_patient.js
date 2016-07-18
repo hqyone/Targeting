@@ -8,6 +8,8 @@ var Backbone = require('backbone');
 var path = require("path");
 var parseString = require('xml2js').parseString;
 var parser = new xml2js.Parser();
+var Drug =  require("./tcga_drug.js");
+var Radiation = require("./tcga_radiation.js")
 
 var tcga_patient_xml_attr_dic={
     patient_id:"shared:patient_id",
@@ -69,7 +71,8 @@ var tcga_patient_xml_attr_dic={
     primary_pattern:"shared_stage:primary_pattern",
     secondary_pattern:"shared_stage:secondary_pattern",
     tertiary_pattern:"shared_stage:tertiary_pattern",
-    vital_status:"clin_shared:vital_status",
+    drugs:"rx:drugs",
+    radiations:"rad:radiations",
 };
 
 var tcga_patient_feature_ls=[
@@ -133,7 +136,9 @@ var tcga_patient_feature_ls=[
     "primary_pattern",
     "secondary_pattern",
     "tertiary_pattern",
-    "vital_status"
+    "vital_status",
+    "drugs",
+    "radiations"
 ];
 
 var getPatientPath=function(xml_obj, keyword){
@@ -151,6 +156,20 @@ var getXMLValue = function(xml_obj, attr_ls){
             temp = temp[attr];
             if (i==attr_ls.length-1){
                 return temp._==undefined?"":temp._;
+            }
+        }
+    }
+    return "";
+}
+
+var getXMLObj = function(xml_obj, attr_ls){
+    var temp = xml_obj
+    for (var i=0; i<attr_ls.length; i++){
+        var attr = attr_ls[i];
+        if (temp[attr]!=undefined){
+            temp = temp[attr];
+            if (i==attr_ls.length-1){
+                return temp;
             }
         }
     }
@@ -218,8 +237,11 @@ function TCGA_Patient(){
         gleason_score:"",
         primary_pattern:"",
         secondary_pattern:"",
-        tertiary_pattern:""
-    }
+        tertiary_pattern:"",
+    },
+    this.drugs=[];
+    this.radiations=[];
+    this.follow_ups=[];
 }
 
 TCGA_Patient.prototype.loading=function(filename){
@@ -229,11 +251,14 @@ TCGA_Patient.prototype.loading=function(filename){
             console.dir(getPatientPath(result));
             //console.dir(result);
             //Get tcga_patient object
+
             var label_ls = getPatientPath(result, "patient");
+            var xmlobjs = getXMLObjects(result,label_ls[0]);
             for (var i=0; i<tcga_patient_feature_ls.length; i++){
                 var feature = tcga_patient_feature_ls[i];
                 var attr_name = tcga_patient_xml_attr_dic[feature];
                 if (attr_name!=undefined){
+                    console.log(attr_name);
                     if (attr_name.indexOf("shared_stage")>=0){
                         label_ls.push("shared_stage:stage_event");
                         label_ls.push("0");
@@ -250,12 +275,44 @@ TCGA_Patient.prototype.loading=function(filename){
                         }
                         label_ls.push(attr_name);
                         label_ls.push("0");
-                    }else{
+                        self.features[feature]=getXMLValue(result, label_ls);
+                        label_ls = getPatientPath(result, "patient");
+
+                    }else if (attr_name.indexOf("drugs")>=0){
+                        label_ls.push("rx:drugs");
+                        label_ls.push("0");
+                        label_ls.push("rx:drug");
+                        var drugs_obj = getXMLObj(result, label_ls);
+                        for (var k=0; k<drugs_obj.length; k++){
+                            var drug_attr_ls =[];
+                            var drug = new Drug.TCGA_Drug();
+                            drug.loading(drugs_obj[k], drug_attr_ls);
+                            self.drugs.push(drug);
+                        }
+                        label_ls = getPatientPath(result, "patient");
+                        //console.dir(self);
+                    }else if (attr_name.indexOf("radiations")>=0){
+                        label_ls.push("rad:radiations");
+                        label_ls.push("0");
+                        label_ls.push("rad:radiation");
+                        var radiation_objs = getXMLObj(result, label_ls);
+                        for (var k=0; k<radiation_objs.length; k++){
+                            var radiation_attr_ls =[];
+                            var radiation = new Radiation.TCGA_Radiation();
+                            radiation.loading(radiation_objs[k], radiation_attr_ls);
+                            self.radiations.push(radiation);
+                        }
+                        label_ls = getPatientPath(result, "patient");
+                        //console.dir(self);
+                    }
+                    else{
+
                         label_ls.push(attr_name);
                         label_ls.push("0");
+                        self.features[feature]=getXMLValue(result, label_ls);
+                        label_ls = getPatientPath(result, "patient");
                     }
-                    self.features[feature]=getXMLValue(result, label_ls);
-                    label_ls = getPatientPath(result, "patient");
+
                 }
             }
             console.dir(patient);
@@ -264,12 +321,16 @@ TCGA_Patient.prototype.loading=function(filename){
     });
 }
 
-var  TCGA_Stage =  Backbone.Model.extend({
-    defaults:{
+var getXMLObjects = function(xml_obj, tag){
+    var object_ls = _.filter(_.keys(xml_obj), function(key){
+        return key.indexOf(tag)>=0;
+    });
+    return object_ls;
+}
 
-    },
-
-})
+var isXMLLeaf = function(xml_obj){
+    return xml_obj._!=undefined;
+}
 
 var xml_file = __dirname + '/nationwidechildrens.org_clinical.TCGA-39-5029.xml';
 var patient = new TCGA_Patient();

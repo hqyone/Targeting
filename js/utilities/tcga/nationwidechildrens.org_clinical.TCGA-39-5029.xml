@@ -13,6 +13,19 @@
             <admin:withdrawn>false</admin:withdrawn>
         </admin:patient_withdrawal>
     </admin:admin>
+    <admin:admin>
+        <admin:bcr xsd_ver="1.17">Nationwide Children's Hospital</admin:bcr>
+        <admin:file_uuid xsd_ver="2.6">02FD9080-A80F-4727-AF24-BB49282A31EF</admin:file_uuid>
+        <admin:batch_number xsd_ver="1.17">77.67.0</admin:batch_number>
+        <admin:project_code xsd_ver="">TCGA</admin:project_code>
+        <admin:disease_code xsd_ver="2.6">LUSC</admin:disease_code>
+        <admin:day_of_dcc_upload xsd_ver="1.17">31</admin:day_of_dcc_upload>
+        <admin:month_of_dcc_upload xsd_ver="1.17">3</admin:month_of_dcc_upload>
+        <admin:year_of_dcc_upload xsd_ver="1.17">2016</admin:year_of_dcc_upload>
+        <admin:patient_withdrawal>
+            <admin:withdrawn>false</admin:withdrawn>
+        </admin:patient_withdrawal>
+    </admin:admin>
     <lusc:patient>
         <admin:additional_studies/>
         <clin_shared:tumor_tissue_site preferred_name="submitted_tumor_site" display_order="9999" cde="3427536" cde_ver="2.000" xsd_ver="2.6" tier="2" owner="TSS" procurement_status="Completed" restricted="false" source_system_identifier="672073">Lung</clin_shared:tumor_tissue_site>
