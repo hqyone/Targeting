@@ -255,7 +255,6 @@ TCGA_Patient.prototype.loading=function(filename){
             var label_ls = getPatientPath(result, "patient");
             var tcga_objs = getXMLObjects(result,label_ls[0]);
             var patient_objs = getXMLObjects(tcga_objs[0],":patient");
-            var vital_statue_obj =  getXMLObjects(patient_objs[0],"vital_status");
             for (var i=0; i<tcga_patient_feature_ls.length; i++){
                 var feature = tcga_patient_feature_ls[i];
                 var attr_name = tcga_patient_xml_attr_dic[feature];
@@ -308,11 +307,14 @@ TCGA_Patient.prototype.loading=function(filename){
                         //console.dir(self);
                     }
                     else{
-
-                        label_ls.push(attr_name);
-                        label_ls.push("0");
-                        self.features[feature]=getXMLValue(result, label_ls);
-                        label_ls = getPatientPath(result, "patient");
+                        //self.features[feature]=getXMLValue(result, label_ls);
+                        //label_ls = getPatientPath(result, "patient");
+                        var target_obj = getXMLObjects(patient_objs[0][0],attr_name);
+                        if (target_obj!=undefined && target_obj[0]!=undefined &&  target_obj[0]!=undefined){
+                            self.features[feature] = target_obj[0][0]._
+                        }else{
+                            console.log(feature);
+                        }
                     }
 
                 }
@@ -324,10 +326,14 @@ TCGA_Patient.prototype.loading=function(filename){
 }
 
 var getXMLObjects = function(xml_obj, tag){
-    var object_ls = _.filter(_.keys(xml_obj), function(key){
+    var key_ls = _.filter(_.keys(xml_obj), function(key){
         return key.indexOf(tag)>=0;
     });
-    return object_ls;
+    var xml_obj_ls = [];
+    _.map(key_ls, function(key){
+        xml_obj_ls.push(xml_obj[key]);
+    })
+    return xml_obj_ls;
 }
 
 var isXMLLeaf = function(xml_obj){
