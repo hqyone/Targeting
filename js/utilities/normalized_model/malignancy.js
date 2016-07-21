@@ -2,25 +2,25 @@
  * Created by qhe on 7/20/16.
  */
 var malignancy_abb_dic={
-    p_id:patient_id,
-    bc:bcr_omf_barcode,
-    uu:bcr_omf_uuid,
-    m_type:malignancy_type,
-    stage:pathologic_stage,
-    p_m:pathologic_m,
-    p_n:pathologic_n,
-    p_t:pathologic_t,
-    site:other_malignancy_anatomic_site,
-    site_tx:other_malignancy_anatomic_site_text,
-    h_type:other_malignancy_histological_type,
-    h_type_tx:other_malignancy_histological_type_text,
-    rad:radiation_tx_indicator,
-    surgery:surgery
+    p_bc:"patient_bc",
+    bc:"bcr_omf_barcode",
+    uu:"bcr_omf_uuid",
+    m_type:"malignancy_type",
+    stage:"pathologic_stage",
+    p_m:"pathologic_m",
+    p_n:"pathologic_n",
+    p_t:"pathologic_t",
+    site:"other_malignancy_anatomic_site",
+    site_tx:"other_malignancy_anatomic_site_text",
+    h_type:"other_malignancy_histological_type",
+    h_type_tx:"other_malignancy_histological_type_text",
+    rad:"radiation_tx_indicator",
+    surgery:"surgery"
 }
 
 
 function Malignancy(){
-    this.p_id="";
+    this.p_bc="";
     this.bc="";
     this.uu="";
     this.m_type="";
@@ -35,3 +35,6 @@ function Malignancy(){
     this.rad="";
     this.surgery=undefined;
 }
+
+module.exports.Malignancy = Malignancy;
+module.exports.malignancy_abb_dic = malignancy_abb_dic;

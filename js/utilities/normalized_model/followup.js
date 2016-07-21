@@ -2,7 +2,7 @@
  * Created by qhe on 7/20/16.
  */
 var followup_abb_dic={
-    p_id:"patient_id",
+    p_bc:"patient_barcode",
     i:"index",
     bc:"bcr_followup_barcode",
     uu:"bcr_followup_uuid",
@@ -19,6 +19,18 @@ var followup_abb_dic={
 
 function FollowUp(){
     this.p_id="";
+    this.i=null;
     this.bc="";
-
+    this.uu="";
+    this.su ="";
+    this.l_days=null;
+    this.n_days=null;
+    this.re="";
+    this.statue="";
+    this.days=null;
+    this.l_surgery="";
+    this.m_surgery="";
 }
+
+module.exports.FollowUp = FollowUp;
+module.exports.followup_abb_dic = followup_abb_dic;

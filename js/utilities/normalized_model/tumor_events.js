@@ -18,3 +18,6 @@ function TumorEvent(){
     this.type="";
     this.determine="";
 }
+
+module.exports.TumorEvent = TumorEvent;
+module.exports.tumor_event_abb_dic = tumor_event_abb_dic;

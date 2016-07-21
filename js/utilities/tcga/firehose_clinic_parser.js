@@ -6,30 +6,16 @@
 
 var fs = require('fs');
 var readline = require('readline');
-var TCGA_Patient = require("./tcga_patient.js");
+var patient = require("../normalized_model/patient.js");
+var malignancy = require("../normalized_model/malignancy.js");
+var analyte = require("../normalized_model/analyte.js");
+var followup = require("../normalized_model/followup.js");
+var sample = require("../normalized_model/sample.js");
+var slides = require("../normalized_model/slides.js");
+var treatment = require("../normalized_model/treatment.js");
+var tumor_events = require("../normalized_model/tumor_events.js");
+var radiation = require("../normalized_model/radiation.js");
 
-/**
- *
- * @param id
- * @returns {*[]}
- * Example:
- * input: patient.follow_ups.follow_up.day_of_form_completion
- * output:follow_up (Obj_name), index (Index)
- */
-var get_obj_attr = function(id){
-    var id_items = id.split(".");
-    var attr_name = id_items.pop();
-    var obj_name = id_items.pop();
-    var obj_index=0;
-    if (obj_name.indexOf("-")<0){
-        obj_index = 1;
-    }else{
-        var temp = obj_name.split("-");
-        obj_index = parseInt(temp.pop());
-        obj_name = temp.pop();
-    }
-    return [obj_name, obj_index, attr_name];
-}
 
 var get_obj_type= function(id){
     if (id.indexOf("drug")>=0){
@@ -47,9 +33,9 @@ var get_obj_type= function(id){
 var add_feature = function(line, obj, index)
 {
     if (obj==undefined){obj={};}
-    var contents = line.split("\t").reverse();
-    var json_path = contents.pop();
-    var data = contents.reverse()[index];
+    var contents = line.split("\t");
+    var json_path = contents.shift();
+    var data = contents[index];
 
     var path = json_path.split(".");
     return build_obj(obj,path,data);
@@ -191,17 +177,50 @@ var clearObject =function(key, obj, null_values){
     }
 }
 
-var patients_2_tabs =function(patients){
-    for (var i=0; i<patients.length; i++){
-        var p =  patients;
+var getAttribute = function(obj, attr){
+    return obj[attr]==undefined?null:obj[attr];
+}
+
+var tcga_2_normal_patient =function(TCGA_patient){
+    var p = new patient.Patient();
+    p.bc = getAttribute(TCGA_patient,"bcr_patient_barcode");
+    p.uu = getAttribute(TCGA_patient,"bcr_patient_uuid");
+    p.age = getAttribute(TCGA_patient,"age_at_initial_pathologic_diagnosis");
+    p.o3s = getAttribute(TCGA_patient,"icd_o_3_site");
+    p.i10 = getAttribute(TCGA_patient,"icd_10");
+    p.o3h = getAttribute(TCGA_patient,"icd_o_3_histology");
+    p.b_days = getAttribute(TCGA_patient,"days_to_birth");
+    p.d_days = getAttribute(TCGA_patient,"days_to_death");
+    p.l_days = getAttribute(TCGA_patient,"days_to_last_known_alive");
+    p.dx = getAttribute(TCGA_patient,"diagnosis");
+    p.dx_days = getAttribute(TCGA_patient,"days_to_initial_pathologic_diagnosis");
+    p.dx_age = getAttribute(TCGA_patient,"age_at_initial_pathologic_diagnosis");
+    p.dx_year = getAttribute(TCGA_patient,"year_of_initial_pathologic_diagnosis");
+    p.g = getAttribute(TCGA_patient,"gender");
+    p.r = getAttribute(TCGA_patient,"race");
+    if (TCGA_patient["stage_event"]!=undefined){
+        p.stage = getAttribute(TCGA_patient["stage_event"],"pathologic_stage");
+        if (TCGA_patient["stage_event"]["tnm_categories"]!=undefined){
+            p.p_m = getAttribute(TCGA_patient["stage_event"]["tnm_categories"],"pathologic_m");
+            p.p_n = getAttribute(TCGA_patient["stage_event"]["tnm_categories"],"pathologic_n");
+            p.p_t = getAttribute(TCGA_patient["stage_event"]["tnm_categories"],"pathologic_t");
+        }
+    }
+    p.tt_site = getAttribute(TCGA_patient,"tumor_tissue_site");
+    p.vital = getAttribute(TCGA_patient,"vital_statue");
+    p.c_status = getAttribute(TCGA_patient,"person_neoplasm_cancer_status");
+    p.tumor = getAttribute(TCGA_patient,"residual_tumor");
+
+    if (TCGA_patient.samples!=undefined){
+        var samples = TCGA_patient.samples;
 
     }
 }
 
 
+var clinic_file = "/Users/quanyuanhe/Documents/Projects/MyProject/Targeting/Database/TCGA/BRCA/data/lusc/LUSC.merge_clin_test.txt";
 
-
-var clinic_file = "/Users/qhe/Documents/Databases/TCGA/firehose/key_data/lusc/gdac.broadinstitute.org_LUSC.Merge_Clinical.Level_1.2016012800.0.0/LUSC.clin.merged_test.txt";
+//var clinic_file = "/Users/qhe/Documents/Databases/TCGA/firehose/key_data/lusc/gdac.broadinstitute.org_LUSC.Merge_Clinical.Level_1.2016012800.0.0/LUSC.clin.merged_test.txt";
 //var json = JSON.unflatten({"patient.stage_event.tnm_categories.pathologic_categories.pathologic_n":false});
 var patient_ls = read_table_file(clinic_file);
 console.log("xx");

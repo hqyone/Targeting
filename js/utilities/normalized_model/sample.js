@@ -2,7 +2,7 @@
  * Created by qhe on 7/20/16.
  */
 var sample_abb_dic={
-    p_id:"patient_id",
+    p_bc:"patient_barcode",
     bc:"bcr_sample_barcode",
     uu:"bcr_sample_uuid",
     ffpe:"is_ffpe",
@@ -17,7 +17,7 @@ var sample_abb_dic={
 
 
 function Sample(){
-    this.p_id="";
+    this.p_bc="";
     this.bc ="";
     this.uu="";
     this.ffpe="";
@@ -27,3 +27,6 @@ function Sample(){
     this.col_day="";
     this.dx_slides=[];
 }
+
+module.exports.Sample = Sample;
+module.exports.sample_abb_dic = sample_abb_dic;
