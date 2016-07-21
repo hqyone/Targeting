@@ -238,13 +238,19 @@ function TCGA_Patient(){
         primary_pattern:"",
         secondary_pattern:"",
         tertiary_pattern:"",
-    },
-    this.drugs=[];
-    this.radiations=[];
-    this.follow_ups=[];
+    }
+    //this.drugs=[];
+    //this.radiations=[];
+    //this.follow_ups=[];
 }
 
-TCGA_Patient.prototype.loading=function(filename){
+TCGA_Patient.prototype.fromFireHoseClinicInfor=function(fh_clinic_obj){
+    for (var i=0; i<tcga_patient_feature_ls.length;i++){
+
+    }
+}
+
+/**TCGA_Patient.prototype.loading=function(filename){
     var self =this;
     fs.readFile(filename, function(err, data) {
         parser.parseString(data, function (err, result) {
@@ -334,15 +340,12 @@ var getXMLObjects = function(xml_obj, tag){
         xml_obj_ls.push(xml_obj[key]);
     })
     return xml_obj_ls;
-}
+}**/
 
-var isXMLLeaf = function(xml_obj){
-    return xml_obj._!=undefined;
-}
 
 var xml_file = __dirname + '/nationwidechildrens.org_clinical.TCGA-39-5029.xml';
 var patient = new TCGA_Patient();
-patient.loading(xml_file);
+//patient.loading(xml_file);
 
 
 module.exports.TCGA_Patient = TCGA_Patient;

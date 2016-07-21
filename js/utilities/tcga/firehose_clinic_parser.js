@@ -49,7 +49,7 @@ var add_feature = function(line, obj, index)
     if (obj==undefined){obj={};}
     var contents = line.split("\t").reverse();
     var json_path = contents.pop();
-    var data = contents[index];
+    var data = contents.reverse()[index];
 
     var path = json_path.split(".");
     return build_obj(obj,path,data);
@@ -64,7 +64,7 @@ var build_obj=function(result,attr_ls, data){
     for (var i=0; i<attr_ls.length; i++){
         temp = attr_ls[i];
 
-        if(i==attr_ls.length-1 && temp!="drugs"){
+        if(i==attr_ls.length-1 && temp!="drugs" && temp!="radiations" && temp!='follow_ups'){
             cur[temp] = data;
         }else{
             if (typeof cur != 'object') {
@@ -147,17 +147,61 @@ var read_table_file = function(filepath){
                 patient_ls[i]={};
             }
         }
+        console.log(line);
         if (line.indexOf("V1")!=0 ){
             for (var i=0;i<patient_num; i++){
+                if (line.indexOf(".drug-2.therapy")>=0 && i==5){
+                    console.log(".drug-2.therap");
+                }
                 patient_ls[i] = add_feature(line,patient_ls[i], i);
             }
         }
     }).on('close',function(){
-        console.log(JSON.stringify(patient_ls));
+        for (var i=0;i<patient_ls.length; i++){
+            clearObject(i,patient_ls,["NA"]);
+        }
+        return patient_ls;  //This can be store in memory
     })
 }
 
+//Delete objects without any information
+var clearObject =function(key, obj, null_values){
+    var path = [];
+    var value = obj[key];
+    if (key == "drugs"){
+        console.log(obj[key])
+    }
+    if (value!=undefined && value!=null && typeof(value) === "object"){
+        var keys = Object.keys(value);
+        for (var i=0; i<keys.length; i++){
+            clearObject(keys[i], value,null_values);
+        }
+        if (Object.keys(value).length==0){
+            delete obj[key];
+        }
+    }else if(typeof(value)==="array"){
+        for (var i=0; i<value.length; i++){
+            clearObject(i, value,null_values);
+        }
+    }else{
+        if(null_values.indexOf(value)>=0)
+        {
+            delete obj[key];
+        }
+    }
+}
 
-var clinic_file = "/Users/quanyuanhe/Documents/Projects/MyProject/Targeting/Database/TCGA/BRCA/data/lusc/gdac.broadinstitute.org_LUSC.Merge_Clinical.Level_1.2016012800.0.0/LUSC.merged_only_clinical_clin_format.txt";
+var patients_2_tabs =function(patients){
+    for (var i=0; i<patients.length; i++){
+        var p =  patients;
+
+    }
+}
+
+
+
+
+var clinic_file = "/Users/qhe/Documents/Databases/TCGA/firehose/key_data/lusc/gdac.broadinstitute.org_LUSC.Merge_Clinical.Level_1.2016012800.0.0/LUSC.clin.merged_test.txt";
 //var json = JSON.unflatten({"patient.stage_event.tnm_categories.pathologic_categories.pathologic_n":false});
-read_table_file(clinic_file);
+var patient_ls = read_table_file(clinic_file);
+console.log("xx");
