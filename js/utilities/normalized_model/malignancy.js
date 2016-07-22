@@ -3,6 +3,7 @@
  */
 var malignancy_abb_dic={
     p_bc:"patient_bc",
+    i:"index",
     bc:"bcr_omf_barcode",
     uu:"bcr_omf_uuid",
     m_type:"malignancy_type",
@@ -15,12 +16,14 @@ var malignancy_abb_dic={
     h_type:"other_malignancy_histological_type",
     h_type_tx:"other_malignancy_histological_type_text",
     rad:"radiation_tx_indicator",
+    drug:"drug_dx_indicator",
     surgery:"surgery"
 }
 
 
 function Malignancy(){
     this.p_bc="";
+    this.i=null;
     this.bc="";
     this.uu="";
     this.m_type="";
@@ -33,6 +36,7 @@ function Malignancy(){
     this.h_type="";
     this.h_type_tx="";
     this.rad="";
+    this.drug="";
     this.surgery=undefined;
 }
 

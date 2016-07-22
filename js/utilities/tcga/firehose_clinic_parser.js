@@ -5,6 +5,7 @@
  */
 
 var fs = require('fs');
+var path = require('path');
 var readline = require('readline');
 var patient = require("../normalized_model/patient.js");
 var malignancy = require("../normalized_model/malignancy.js");
@@ -197,7 +198,7 @@ var tcga_2_normal_patient =function(TCGA_patient){
     p.dx_age = getAttribute(TCGA_patient,"age_at_initial_pathologic_diagnosis");
     p.dx_year = getAttribute(TCGA_patient,"year_of_initial_pathologic_diagnosis");
     p.g = getAttribute(TCGA_patient,"gender");
-    p.r = getAttribute(TCGA_patient,"race");
+    p.r = getAttribute(TCGA_patient["race_list"],"race");
     if (TCGA_patient["stage_event"]!=undefined){
         p.stage = getAttribute(TCGA_patient["stage_event"],"pathologic_stage");
         if (TCGA_patient["stage_event"]["tnm_categories"]!=undefined){
@@ -212,13 +213,62 @@ var tcga_2_normal_patient =function(TCGA_patient){
     p.tumor = getAttribute(TCGA_patient,"residual_tumor");
 
     if (TCGA_patient.samples!=undefined){
-        var samples = TCGA_patient.samples;
+        var sample_dic = TCGA_patient.sample_dic;
+        if (sample_dic!=undefined && Object.keys(sample_dic).length>0){
+            for (var key in samples){
+                var ts =samples[key];
+                var s = sample.Sample();
+                s.p_bc = p.bc;
+                s.bc = getAttribute(ts,"bcr_sample_barcode");
+                s.uu = getAttribute(ts,"bcr_sample_uuid");
+                s.ffpe = getAttribute(ts, "is_ffpe");
+                s.type = getAttribute(ts, "sample_type");
+                s.l_dim = getAttribute(ts,"longest_dimension");
+                s.s_dim = getAttribute(ts, "shortest_dimension");
+                if(ts.diagnostic_slides!=undefined){
+                    for(var s_key in ts.diagnostic_slides){
+                        var slide_uui = ts.diagnostic_slides[s_key];
+                        s.dx_slides.push(slide_uui);
+                    }
+                }
+                p.samples.push(s);
+            }
+        }
+    }
+    if(TCGA_patient.omfs!=undefined){
+        var omf_dic = TCGA_patient.omfs;
+        for (var key in omf_dic){
+            var omf = omf_dic[key];
+            var m = new malignancy.Malignancy();
+            m.p_bc = p.bc;
+            var match=key.match(/\d+/);
+            m.i=match==null?0:match[0]-1;
+            m.bc = getAttribute(omf,"bcr_omf_barcode");
+            m.uu = getAttribute(omf,"bcr_omf_barcode");
+            m.m_type = getAttribute(omf,"malignancy_type");
+            m.stage = getAttribute(omf,"malignancy_type");
+            if (m["stage_event"]!=undefined){
+                p.stage = getAttribute(TCGA_patient["stage_event"],"pathologic_stage");
+                if (TCGA_patient["stage_event"]["tnm_categories"]!=undefined){
+                    p.p_m = getAttribute(TCGA_patient["stage_event"]["tnm_categories"],"pathologic_m");
+                    p.p_n = getAttribute(TCGA_patient["stage_event"]["tnm_categories"],"pathologic_n");
+                    p.p_t = getAttribute(TCGA_patient["stage_event"]["tnm_categories"],"pathologic_t");
+                }
+            }
+        }
+    }
+
+    if (TCGA_patient.stage_event!=undefined){
 
     }
 }
 
+var project_path_ls = __dirname.split("/");
+project_path_ls.pop()
+project_path_ls.pop()
+project_path_ls.pop()
 
-var clinic_file = "/Users/quanyuanhe/Documents/Projects/MyProject/Targeting/Database/TCGA/BRCA/data/lusc/LUSC.merge_clin_test.txt";
+var clinic_file =project_path_ls.join("/")+'/data/LUSC.merge_clin_test.txt';
 
 //var clinic_file = "/Users/qhe/Documents/Databases/TCGA/firehose/key_data/lusc/gdac.broadinstitute.org_LUSC.Merge_Clinical.Level_1.2016012800.0.0/LUSC.clin.merged_test.txt";
 //var json = JSON.unflatten({"patient.stage_event.tnm_categories.pathologic_categories.pathologic_n":false});
