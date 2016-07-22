@@ -13,7 +13,10 @@ var followup_abb_dic={
     statue:"person_neoplasm_cancer_statue",
     days:"The days of followup",
     l_surgery:"locoregional_procedure",
-    m_surgery:"metastatic_procedure"
+    m_surgery:"metastatic_procedure",
+    rad:"radiation_therapy",
+    drug_tx:"targeted_molecular_therapy",
+    vital:"vital_status"
 }
 
 
@@ -30,6 +33,9 @@ function FollowUp(){
     this.days=null;
     this.l_surgery="";
     this.m_surgery="";
+    this.rad="";
+    this.drug_tx ="";
+    this.vital="";
 }
 
 module.exports.FollowUp = FollowUp;

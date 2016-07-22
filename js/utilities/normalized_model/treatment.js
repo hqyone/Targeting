@@ -3,6 +3,7 @@
  */
 var treatment_abb_dic={
     p_bc:"patient_barcode",
+    i:"index",
     bc:"bcr_drug_barcode",
     uu:"bcr_drug_uuid",
     e_days:"days_to_drug_therapy_end",
@@ -18,6 +19,7 @@ var treatment_abb_dic={
 
 function Treatment(){
     this.p_bc="";
+    this.i=null;
     this.bc = "";
     this.uu = "";
     this.e_days = null;

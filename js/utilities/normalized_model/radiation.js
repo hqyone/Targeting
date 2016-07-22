@@ -3,6 +3,7 @@
  */
 var radiation_abb_dic={
     p_bc:"patient_barcode",
+    i:"index",
     site:"anatomic_treatment_site",
     bc:"bcr_radiation_barcode",
     uu:"bcr_radiation_uuid",
@@ -20,6 +21,7 @@ var radiation_abb_dic={
 function Radiation(){
     this.site = "";
     this.bc="";
+    this.i="";
     this.uu="";
     this.cn="";
     this.s_days=null;

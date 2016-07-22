@@ -144,10 +144,12 @@ var read_table_file = function(filepath){
             }
         }
     }).on('close',function(){
+        var n_patient_ls = [];
         for (var i=0;i<patient_ls.length; i++){
             clearObject(i,patient_ls,["NA"]);
+            n_patient_ls.push(tcga_2_normal_patient(patient_ls[i].patient));
         }
-        return patient_ls;  //This can be store in memory
+        return n_patient_ls;  //This can be store in memory
     })
 }
 
@@ -179,7 +181,32 @@ var clearObject =function(key, obj, null_values){
 }
 
 var getAttribute = function(obj, attr){
-    return obj[attr]==undefined?null:obj[attr];
+    if (obj==undefined){
+        return "";
+    }
+    var temp = obj[attr];
+    if(temp==undefined){
+        return null;
+    }else if(typeof(temp)==="object"){
+        var result = "";
+        for (var key in temp){
+            var value =  temp[key];
+            if (typeof(value)==="string"){
+                result += key+":"+value+";"
+            }else {
+                result += key+":"+typeof(value)+";"
+            }
+        }
+        return result;
+    }else if (typeof(temp)==="array"){
+        var result = "";
+        for (var i=0; i<temp.length; i++){
+            result+= temp[i]+";"
+        }
+        return result;
+    }else{
+        return temp;
+    }
 }
 
 var tcga_2_normal_patient =function(TCGA_patient){
@@ -202,9 +229,9 @@ var tcga_2_normal_patient =function(TCGA_patient){
     if (TCGA_patient["stage_event"]!=undefined){
         p.stage = getAttribute(TCGA_patient["stage_event"],"pathologic_stage");
         if (TCGA_patient["stage_event"]["tnm_categories"]!=undefined){
-            p.p_m = getAttribute(TCGA_patient["stage_event"]["tnm_categories"],"pathologic_m");
-            p.p_n = getAttribute(TCGA_patient["stage_event"]["tnm_categories"],"pathologic_n");
-            p.p_t = getAttribute(TCGA_patient["stage_event"]["tnm_categories"],"pathologic_t");
+            p.p_m = getAttribute(TCGA_patient["stage_event"]["tnm_categories"]["pathologic_categories"],"pathologic_m");
+            p.p_n = getAttribute(TCGA_patient["stage_event"]["tnm_categories"]["pathologic_categories"],"pathologic_n");
+            p.p_t = getAttribute(TCGA_patient["stage_event"]["tnm_categories"]["pathologic_categories"],"pathologic_t");
         }
     }
     p.tt_site = getAttribute(TCGA_patient,"tumor_tissue_site");
@@ -247,20 +274,78 @@ var tcga_2_normal_patient =function(TCGA_patient){
             m.uu = getAttribute(omf,"bcr_omf_barcode");
             m.m_type = getAttribute(omf,"malignancy_type");
             m.stage = getAttribute(omf,"malignancy_type");
-            if (m["stage_event"]!=undefined){
-                p.stage = getAttribute(TCGA_patient["stage_event"],"pathologic_stage");
-                if (TCGA_patient["stage_event"]["tnm_categories"]!=undefined){
-                    p.p_m = getAttribute(TCGA_patient["stage_event"]["tnm_categories"],"pathologic_m");
-                    p.p_n = getAttribute(TCGA_patient["stage_event"]["tnm_categories"],"pathologic_n");
-                    p.p_t = getAttribute(TCGA_patient["stage_event"]["tnm_categories"],"pathologic_t");
+            if (omf["stage_event"]!=undefined){
+                m.stage = getAttribute(omf["stage_event"],"pathologic_stage");
+                if (m["stage_event"]["tnm_categories"]!=undefined){
+                    m.p_m = getAttribute(omf["stage_event"]["tnm_categories"]["pathologic_categories"],"pathologic_m");
+                    m.p_n = getAttribute(omf["stage_event"]["tnm_categories"]["pathologic_categories"],"pathologic_n");
+                    m.p_t = getAttribute(omf["stage_event"]["tnm_categories"]["pathologic_categories"],"pathologic_t");
                 }
             }
+            m.site = getAttribute(omf,"other_malignancy_anatomic_site");
+            m.site_tx=getAttribute(omf,"other_malignancy_anatomic_site_text");
+            m.h_type=getAttribute(omf,"other_malignancy_histological_type");;
+            m.h_type_tx=getAttribute(omf,"other_malignancy_histological_type_text");;
+            m.rad=getAttribute(omf,"radiation_tx_indicator");;
+            m.drug=getAttribute(omf,"drug_dx_indicator");;
+            m.surgery=null;
         }
     }
 
-    if (TCGA_patient.stage_event!=undefined){
+    if (TCGA_patient.follow_ups!=undefined){
+        for (var key in TCGA_patient.follow_ups){
+            var cur_followup = TCGA_patient.follow_ups[key];
+            var f = new followup.FollowUp();
+
+            var match=key.match(/\d+/);
+            f.i=match==null?0:match[0]-1;
+
+            f.p_bc = p.bc;
+            f.bc = getAttribute(cur_followup,"bcr_followup_barcode");
+            f.uu = getAttribute(cur_followup,"bcr_followup_uuid");
+            f.su = getAttribute(cur_followup,"followup_treatment_success");
+            f.l_days = getAttribute(cur_followup,"days_to_last_followup");
+            f.n_days = getAttribute(cur_followup,"days_to_new_tumor_event_after_initial_treatment");
+            f.re = getAttribute(cur_followup, "followup_case_report_form_submission_reason");
+            f.statue = getAttribute(cur_followup,"person_neoplasm_cancer_statue");
+            f.days = getAttribute(cur_followup,"person_neoplasm_cancer_statue");
+            f.l_surgery = getAttribute(cur_followup,"locoregional_procedure");
+            f.m_surgery = getAttribute(cur_followup,"metastatic_procedure");
+            f.rad = getAttribute(cur_followup,"radiation_therapy");
+            f.drug_tx = getAttribute(cur_followup,"targeted_molecular_therapy");
+
+            p.followups.push(f);
+        }
+    }
+
+    if (TCGA_patient.drugs!=undefined) {
+        for (var key in TCGA_patient.drugs) {
+            var cur_drug = TCGA_patient.drugs[key];
+            var t = new treatment.Treatment();
+
+            var match=key.match(/\d+/);
+            t.i=match==null?0:match[0]-1;
+            t.p_bc = p.bc;
+            t.dc = getAttribute(cur_drug,"bcr_drug_barcode");
+            t.uu = getAttribute(cur_drug,"bcr_drug_uuid");
+            t.e_days = getAttribute(cur_drug,"days_to_drug_therapy_end");
+            t.s_days = getAttribute(cur_drug,"days_to_drug_therapy_start");
+            t.name = getAttribute(cur_drug,"drug_name");
+            t.ongoing = getAttribute(cur_drug,"therapy_ongoing");
+            t.type = getAttribute(cur_drug,"therapy_types");
+            t.dose = getAttribute(cur_drug,"total_dose");
+            t.unit = getAttribute(cur_drug,"total_dose_units");
+            t.tx_trial = getAttribute(cur_drug,"tx_on_clinical_trial");
+            t.response = getAttribute(cur_drug,"measure_of_response");
+
+            p.treatments.push(t);
+        }
+    }
+
+    if (TCGA_patient.radiations !=undefined){
 
     }
+    return p;
 }
 
 var project_path_ls = __dirname.split("/");
