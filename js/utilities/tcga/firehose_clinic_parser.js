@@ -182,7 +182,7 @@ var clearObject =function(key, obj, null_values){
 
 var getAttribute = function(obj, attr){
     if (obj==undefined){
-        return "";
+        return null;
     }
     var temp = obj[attr];
     if(temp==undefined){
@@ -240,11 +240,11 @@ var tcga_2_normal_patient =function(TCGA_patient){
     p.tumor = getAttribute(TCGA_patient,"residual_tumor");
 
     if (TCGA_patient.samples!=undefined){
-        var sample_dic = TCGA_patient.sample_dic;
+        var sample_dic = TCGA_patient.samples;
         if (sample_dic!=undefined && Object.keys(sample_dic).length>0){
-            for (var key in samples){
-                var ts =samples[key];
-                var s = sample.Sample();
+            for (var key in sample_dic){
+                var ts =sample_dic[key];
+                var s = new sample.Sample();
                 s.p_bc = p.bc;
                 s.bc = getAttribute(ts,"bcr_sample_barcode");
                 s.uu = getAttribute(ts,"bcr_sample_uuid");
@@ -289,6 +289,8 @@ var tcga_2_normal_patient =function(TCGA_patient){
             m.rad=getAttribute(omf,"radiation_tx_indicator");;
             m.drug=getAttribute(omf,"drug_dx_indicator");;
             m.surgery=null;
+
+            p.followups.push(m);
         }
     }
 
@@ -343,7 +345,29 @@ var tcga_2_normal_patient =function(TCGA_patient){
     }
 
     if (TCGA_patient.radiations !=undefined){
+        for (var key in TCGA_patient.radiations){
+            var cur_rad = TCGA_patient.radiations[key];
+            var r = new radiation.Radiation();
 
+            var match=key.match(/\d+/);
+            r.i=match==null?0:match[0]-1;
+
+            r.p_bc = p.bc;
+            r.site = getAttribute(cur_rad,"anatomic_treatment_site");
+            r.bc = getAttribute(cur_rad,"bcr_radiation_barcode");
+            r.uu = getAttribute(cur_rad,"bcr_radiation_uuid");
+            r.cn = getAttribute(cur_rad,"course_number");
+            r.s_days = getAttribute(cur_rad,"days_to_radiation_therapy_start");
+            r.e_days = getAttribute(cur_rad,"days_to_radiation_therapy_end");
+            r.frac = getAttribute(cur_rad,"numfractions");
+            r.dosage = getAttribute(cur_rad, "radiation_dosage");
+            r.units = getAttribute(cur_rad, "units" );
+            r.ongoing = getAttribute(cur_rad, "radiation_treatment_ongoing" );
+            r.type = getAttribute(cur_rad, "radiation_type" );
+            r.reg = getAttribute(cur_rad, "regimen_indication" );
+
+            p.radiations.push(r);
+        }
     }
     return p;
 }
