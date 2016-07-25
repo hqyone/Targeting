@@ -111,10 +111,6 @@ JSON.flatten = function(data) {
 }**/
 
 
-
-
-
-
 var read_table_file = function(filepath){
     var rd = readline.createInterface({
         input: fs.createReadStream(filepath),
@@ -149,6 +145,7 @@ var read_table_file = function(filepath){
             clearObject(i,patient_ls,["NA"]);
             n_patient_ls.push(tcga_2_normal_patient(patient_ls[i].patient));
         }
+        patient_ls_2_json(n_patient_ls,patient_json_file);
         return n_patient_ls;  //This can be store in memory
     })
 }
@@ -209,9 +206,29 @@ var getAttribute = function(obj, attr){
     }
 }
 
+var patient_ls_2_json = function(patient_ls, filename){
+    var id =0;
+    var root_obj = {id:0,
+        label:"Patient ["+patient_ls.length+"]",
+        inode:true,des:"des",open:true, branch:[]}
+    for (var i =0; i<patient_ls.length; i++){
+        root_obj.branch.push(patient_ls[i].toTreeJson(i));
+    }
+    var result =[root_obj];
+
+    fs.writeFile(filename, JSON.stringify(result), function(err) {
+        if(err) {
+            return console.log(err);
+        }
+        console.log("The file was saved!");
+    });
+
+}
+
 var tcga_2_normal_patient =function(TCGA_patient){
     var p = new patient.Patient();
     p.bc = getAttribute(TCGA_patient,"bcr_patient_barcode");
+    p.id = getAttribute(TCGA_patient,"patient_id");
     p.uu = getAttribute(TCGA_patient,"bcr_patient_uuid");
     p.age = getAttribute(TCGA_patient,"age_at_initial_pathologic_diagnosis");
     p.o3s = getAttribute(TCGA_patient,"icd_o_3_site");
@@ -235,7 +252,8 @@ var tcga_2_normal_patient =function(TCGA_patient){
         }
     }
     p.tt_site = getAttribute(TCGA_patient,"tumor_tissue_site");
-    p.vital = getAttribute(TCGA_patient,"vital_statue");
+    p.ts_site = getAttribute(TCGA_patient,"tissue_source_site");
+    p.vital = getAttribute(TCGA_patient,"vital_status");
     p.c_status = getAttribute(TCGA_patient,"person_neoplasm_cancer_status");
     p.tumor = getAttribute(TCGA_patient,"residual_tumor");
 
@@ -252,45 +270,17 @@ var tcga_2_normal_patient =function(TCGA_patient){
                 s.type = getAttribute(ts, "sample_type");
                 s.l_dim = getAttribute(ts,"longest_dimension");
                 s.s_dim = getAttribute(ts, "shortest_dimension");
+                s.col_days = getAttribute(ts,"days_to_collection");
+                s.weight = getAttribute(ts,"initial_weight");
                 if(ts.diagnostic_slides!=undefined){
                     for(var s_key in ts.diagnostic_slides){
                         var slide_uui = ts.diagnostic_slides[s_key];
                         s.dx_slides.push(slide_uui);
                     }
                 }
+                if (s.col_days == null){s.col_days =0;}
                 p.samples.push(s);
             }
-        }
-    }
-    if(TCGA_patient.omfs!=undefined){
-        var omf_dic = TCGA_patient.omfs;
-        for (var key in omf_dic){
-            var omf = omf_dic[key];
-            var m = new malignancy.Malignancy();
-            m.p_bc = p.bc;
-            var match=key.match(/\d+/);
-            m.i=match==null?0:match[0]-1;
-            m.bc = getAttribute(omf,"bcr_omf_barcode");
-            m.uu = getAttribute(omf,"bcr_omf_barcode");
-            m.m_type = getAttribute(omf,"malignancy_type");
-            m.stage = getAttribute(omf,"malignancy_type");
-            if (omf["stage_event"]!=undefined){
-                m.stage = getAttribute(omf["stage_event"],"pathologic_stage");
-                if (m["stage_event"]["tnm_categories"]!=undefined){
-                    m.p_m = getAttribute(omf["stage_event"]["tnm_categories"]["pathologic_categories"],"pathologic_m");
-                    m.p_n = getAttribute(omf["stage_event"]["tnm_categories"]["pathologic_categories"],"pathologic_n");
-                    m.p_t = getAttribute(omf["stage_event"]["tnm_categories"]["pathologic_categories"],"pathologic_t");
-                }
-            }
-            m.site = getAttribute(omf,"other_malignancy_anatomic_site");
-            m.site_tx=getAttribute(omf,"other_malignancy_anatomic_site_text");
-            m.h_type=getAttribute(omf,"other_malignancy_histological_type");;
-            m.h_type_tx=getAttribute(omf,"other_malignancy_histological_type_text");;
-            m.rad=getAttribute(omf,"radiation_tx_indicator");;
-            m.drug=getAttribute(omf,"drug_dx_indicator");;
-            m.surgery=null;
-
-            p.followups.push(m);
         }
     }
 
@@ -308,9 +298,11 @@ var tcga_2_normal_patient =function(TCGA_patient){
             f.su = getAttribute(cur_followup,"followup_treatment_success");
             f.l_days = getAttribute(cur_followup,"days_to_last_followup");
             f.n_days = getAttribute(cur_followup,"days_to_new_tumor_event_after_initial_treatment");
+            f.d_days = getAttribute(cur_followup,"days_to_death");
+            if (p.d_days ==null && f.d_days!=null){p.d_days = f.d_days;}
+            if (f.l_days==null && f.d_days!=null){f.l_days = f.d_days;}
             f.re = getAttribute(cur_followup, "followup_case_report_form_submission_reason");
-            f.statue = getAttribute(cur_followup,"person_neoplasm_cancer_statue");
-            f.days = getAttribute(cur_followup,"person_neoplasm_cancer_statue");
+            f.status = getAttribute(cur_followup,"person_neoplasm_cancer_status");
             f.l_surgery = getAttribute(cur_followup,"locoregional_procedure");
             f.m_surgery = getAttribute(cur_followup,"metastatic_procedure");
             f.rad = getAttribute(cur_followup,"radiation_therapy");
@@ -369,15 +361,71 @@ var tcga_2_normal_patient =function(TCGA_patient){
             p.radiations.push(r);
         }
     }
+
+    if (TCGA_patient.omfs !=undefined){
+        for (var key in TCGA_patient.omfs){
+            var cur_m = TCGA_patient.omfs[key];
+            var m = new malignancy.Malignancy();
+
+            var match=key.match(/\d+/);
+            m.i=match==null?0:match[0]-1;
+
+            m.p_bc = p.bc;
+            m.bc = getAttribute(cur_m,"bcr_omf_barcode");
+            m.uu = getAttribute(cur_m,"bcr_omf_uuid");
+            m.m_type = getAttribute(cur_m,"malignancy_type");
+            if (cur_m["omf_staging"]!=undefined){
+                m.c_stage = getAttribute(cur_m["omf_staging"],"clinical_stage");
+                m.p_stage = getAttribute(cur_m["omf_staging"],"pathologic_stage");
+                m.p_m = getAttribute(cur_m["omf_staging"]["pathologic_categories"],"pathologic_m");
+                m.p_n = getAttribute(cur_m["omf_staging"]["pathologic_categories"],"pathologic_n");
+                m.p_t = getAttribute(cur_m["omf_staging"]["pathologic_categories"],"pathologic_t");
+            }
+            m.site = getAttribute(cur_m,"other_malignancy_anatomic_site");
+            m.site_tx = getAttribute(cur_m, "other_malignancy_anatomic_site_text");
+            m.h_type =  getAttribute(cur_m, "other_malignancy_histological_type");
+            m.h_type_tx = getAttribute(cur_m, "other_malignancy_histological_type_text");
+            if(cur_m["radiation_tx"]!=undefined){
+                m.rad = getAttribute(cur_m["radiation_tx"], "radiation_tx_indicator");
+            }
+            if (cur_m["drug_tx"]!=undefined){
+                var drug_ls = [];
+                for (var mkey in cur_m["drug_tx"]){
+                    if (mkey.startsWith("administered_drug")){
+                        var t = new treatment.Treatment();
+                        var m_match = mkey.match(/\d+/);
+                        t.i = m_match==null?0:m_match[0]-1;
+                        t.name = cur_m.drug_tx[mkey]["drug_name"];
+                        if (cur_m.drug_tx.days_to_drug_therapy_start!=undefined){
+                            t.s_days = parseInt(cur_m.drug_tx.days_to_drug_therapy_start);
+                            //t.e_days = parseInt(cur_m.drug_tx.days_to_drug_therapy_start);
+                        }
+                        if (cur_m.drug_tx.days_to_drug_therapy_end!=undefined){
+                            t.e_days = parseInt(cur_m.drug_dx.days_to_drug_therapy_end);
+                        }
+                        drug_ls.push(t);
+                    }
+                }
+                m.drugs = drug_ls;
+            }
+            if (cur_m["surgery"]!=undefined){
+                m.surgery = getAttribute(cur_m["surgery"],"surgery_indicator")
+            }
+            m.dx_days = parseInt(getAttribute(cur_m, "days_to_other_malignancy_dx"));
+            p.malignancys.push(m);
+        }
+    }
     return p;
 }
 
 var project_path_ls = __dirname.split("/");
-project_path_ls.pop()
-project_path_ls.pop()
-project_path_ls.pop()
+project_path_ls.pop();
+project_path_ls.pop();
+project_path_ls.pop();
 
+//var clinic_file =project_path_ls.join("/")+'/data/BRCA.clin.merged_test.txt';
 var clinic_file =project_path_ls.join("/")+'/data/LUSC.merge_clin_test.txt';
+var patient_json_file = project_path_ls.join("/")+'/public/data/patient.json';
 
 //var clinic_file = "/Users/qhe/Documents/Databases/TCGA/firehose/key_data/lusc/gdac.broadinstitute.org_LUSC.Merge_Clinical.Level_1.2016012800.0.0/LUSC.clin.merged_test.txt";
 //var json = JSON.unflatten({"patient.stage_event.tnm_categories.pathologic_categories.pathologic_n":false});

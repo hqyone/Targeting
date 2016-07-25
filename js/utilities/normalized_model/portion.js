@@ -22,5 +22,15 @@ function Portion(){
     this.weight=null;
 }
 
+Portion.prototype.toTreeJson=function(id){
+    var self = this;
+    return {
+        id:id,
+        label:self.bc,
+        inode:false,
+        des:self.uu
+    }
+}
+
 module.exports.Portion = Portion;
 module.exports.portion_abb_dic = portion_abb_dic;

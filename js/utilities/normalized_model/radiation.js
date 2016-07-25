@@ -34,5 +34,15 @@ function Radiation(){
     this.reg="";
 }
 
+
+Radiation.prototype.toTreeJson=function(id){
+    var self = this;
+    return {
+        id:id,
+        label:self.type,
+        inode:false,
+        des:self.uu
+    }
+}
 module.exports.Radiation = Radiation;
 module.exports.radiation_abb_dic = radiation_abb_dic;

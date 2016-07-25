@@ -24,13 +24,26 @@ function Treatment(){
     this.uu = "";
     this.e_days = null;
     this.s_days = null;
-    this.name = "";
+    this.name = "Unknown";
     this.ongoing = "";
     this.type ="";
     this.dose="";
     this.unit="";
     this.tx_trial="";
     this.response = "";
+}
+
+Treatment.prototype.toTreeJson=function(id){
+    var self = this;
+    return {
+        id:id,
+        label:self.name,
+        inode:false,
+        des:self.uu,
+        timeline:"<div style='background-color:yellow;'>"+self.uu+"</div>",
+        s_day:self.s_days,
+        e_day:self.e_days
+    }
 }
 
 module.exports.Treatment = Treatment;

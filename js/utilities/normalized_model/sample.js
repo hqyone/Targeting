@@ -12,7 +12,8 @@ var sample_abb_dic={
     dx_slides:"diagnostic_slides",
     col_days:"days_to_collection",
     col_s_days:"the possible earliest days for collection",
-    col_e_days:"the possible last days for collection"
+    col_e_days:"the possible last days for collection",
+    weight:"initial_weight"
 };
 
 
@@ -24,8 +25,29 @@ function Sample(){
     this.type="";
     this.l_dim="";
     this.s_dim="";
-    this.col_day="";
+    this.col_days=null;
+    this.col_s_days=null;
+    this.col_e_days=null;
     this.dx_slides=[];
+    this.weight=null;
+}
+
+Sample.prototype.toTreeJson=function(id){
+    var self = this;
+    var s_day = self.col_s_days;
+    var e_day = self.col_e_days;
+    if (self.col_days!=null){
+        s_day = self.col_days;
+        e_day = self.col_days;
+    }
+    return {
+        id:id,
+        label:self.type,
+        inode:false,
+        des:self.uu,
+        s_day:s_day,
+        e_day:e_day
+    }
 }
 
 module.exports.Sample = Sample;
