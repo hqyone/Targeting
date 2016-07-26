@@ -56,7 +56,14 @@ FollowUp.prototype.getTimeLineStr =function()
 FollowUp.prototype.getTooltipStr =function()
 {
     var self =this;
-
+    var result = "";
+    if (self.n_days!=null){
+        result = "days of new tumor,"+self.n_days+";";
+    }
+    if (self.status!=null){
+        result = "Cancer status,"+self.status+";";
+    }
+    return result;
 };
 
 FollowUp.prototype.toTreeJson=function(id){
@@ -67,7 +74,7 @@ FollowUp.prototype.toTreeJson=function(id){
         inode:false,
         des:self.uu,
         timeline:self.getTimeLineStr(), //type,status,start,end;
-        tooltip:""
+        tooltip:self.getTooltipStr()
     }
 }
 

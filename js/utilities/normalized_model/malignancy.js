@@ -29,11 +29,11 @@ function Malignancy(){
     this.bc="";
     this.uu="";
     this.m_type="";
-    this.c_stage="";
-    this.p_stage="";
-    this.p_m="";
-    this.p_n="";
-    this.p_t="";
+    this.c_stage=null;
+    this.p_stage=null;
+    this.p_m=null;
+    this.p_n=null;
+    this.p_t=null;
     this.site="";
     this.site_tx="";
     this.h_type="";
@@ -44,13 +44,44 @@ function Malignancy(){
     this.dx_days=null;
 }
 
+Malignancy.prototype.getTimeLineStr =function()
+{
+    var self =this;
+    var result = "m,"+self.site+","+self.dx_days+";";
+    return result;
+};
+
+Malignancy.prototype.getTooltipStr =function()
+{
+    var self =this;
+    var result = "";
+    if (self.c_stage!=null ){
+        result = "Clinical Stage,"+self.c_stage+";";
+    }
+    if (self.p_stage!=null){
+        result = "Pathologic Stage,"+self.p_stage+";";
+    }
+    if (self.p_n!=null){
+        result = "Pathologic N,"+self.p_n+";";
+    }
+    if (self.p_m!=null){
+        result = "Pathologic M,"+self.p_m+";";
+    }
+    if (self.p_t!=null){
+        result = "Pathologic T,"+self.p_t+";";
+    }
+    return result;
+};
+
 Malignancy.prototype.toTreeJson=function(id){
     var self = this;
     return {
         id:id,
         label:self.site + "["+self.m_type+"]",
         inode:false,
-        des:self.uu
+        des:self.uu,
+        timeline:self.getTimeLineStr(), //type,status,start,end;
+        tooltip:self.getTooltipStr()
     }
 }
 

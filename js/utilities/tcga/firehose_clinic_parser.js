@@ -401,7 +401,7 @@ var tcga_2_normal_patient =function(TCGA_patient){
                             //t.e_days = parseInt(cur_m.drug_tx.days_to_drug_therapy_start);
                         }
                         if (cur_m.drug_tx.days_to_drug_therapy_end!=undefined){
-                            t.e_days = parseInt(cur_m.drug_dx.days_to_drug_therapy_end);
+                            t.e_days = parseInt(cur_m.drug_tx.days_to_drug_therapy_end);
                         }
                         drug_ls.push(t);
                     }
