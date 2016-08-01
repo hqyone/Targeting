@@ -65,7 +65,7 @@ function Patient(){
     this.followups=[];
     this.radiations=[];
     this.tumor_events=[];
-}
+};
 
 Patient.prototype.toTreeJson =function(id){
     var self = this;
@@ -82,17 +82,42 @@ Patient.prototype.toTreeJson =function(id){
     result = addListToResult(result, self.tumor_events, cid+40, "TumorEvents");
     result = addListToResult(result, self.followups, cid+50, "Followups");
     return result;
-}
+};
 
 Patient.prototype.getDaysRange = function(){
     var self =this;
-    if(self.malignancy_ls.length>0){
-        for (var i=0; i<self.malignancy_ls.length; i++){
-            var m = self.malignancy_ls[i];
+    var s_value_ls = [self.s_days];
+    if(self.dx_days!=null){s_value_ls.push(self.dx_days);}
+    var e_value_ls = [self.e_days];
+    if(self.d_days!=null){e_value_ls.push(self.d_days);}
+    if(self.l_days!=null){e_value_ls.push(self.l_days);}
+    if(self.malignancys.length>0){
+        for (var i=0; i<self.malignancys.length; i++){
+            var m = self.malignancys[i];
+            if (m.dx_days!=null){s_value_ls.push(m.dx_days);}
+        }
+        for (var i=0; i<self.treatments.length; i++){
+            var t = self.treatments[i];
+            if (t.s_days!=null){s_value_ls.push(t.s_days);}
+            if (t.e_days!=null){s_value_ls.push(t.e_days);}
+        }
+
+        for (var i=0; i<self.followups.length; i++){
+            var s = self.samples[i];
+            if (s.col_days != null){s_value_ls.push(s.col_days)}
+            if (s.col_s_days != null){s_value_ls.push(s.col_s_days)}
+            if (s.col_e_days != null){e_value_ls.push(s.col_e_days)}
+        }
+
+        for (var i=0; i<self.radiations.length; i++){
+            var r=self.radiations[i];
+            if (r.s_days != null){s_value_ls.push(r.s_days)}
+            if (r.e_days != null){e_value_ls.push(r.e_days)}
         }
     }
-
-}
+    self.s_days = Math.min(s_value_ls);
+    self.e_days = Math.max(e_value_ls);
+};
 
 var addListToResult=function(result, list, cid, name){
     if (list.length>0){
@@ -114,7 +139,7 @@ var addListToResult=function(result, list, cid, name){
         })
     }
     return result;
-}
+};
 
 module.exports.Patient = Patient;
 module.exports.patient_abb_dic = patient_abb_dic;

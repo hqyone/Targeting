@@ -4,9 +4,11 @@
 <script src="../js/ex_libs/tree.jquery.js"></script>
 <script src="../js/ex_libs/aciTree/js/jquery.aciPlugin.min.js"></script>
 <script src="../js/ex_libs/aciTree/js/jquery.aciTree.min.js"></script>
+<script src="../js/ex_libs/d3_3.5.0.js"></script>
+<script src="https://d3js.org/d3-axis.v1.min.js"></script>
 
 <link rel="stylesheet" href ="../js/ex_libs/jquery-ui-1.11.4/jquery-ui.min.css">
-<link rel="stylesheet" href="../js/ex_libs/aciTree/css/aciTree.css">
+<link rel="stylesheet" href="../css/aciTree.css">
 <link rel="stylesheet" href="../js/ex_libs/aciTree/css/demo.css">
 
 <!--<script src="jquery.cookie.js"></script>-->
@@ -15,6 +17,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>OK</title>
+    <div id="xx"></div>
     <div id="tree1" class="aciTree" style="width: 100%; height: auto; margin: 0px; padding: 0px; border-left-width: 1px; border-right-width: 1px; -webkit-user-select: none;"></div>
     <script>
         /**var data = [
@@ -45,6 +48,7 @@
                 "label": "Folder A",
                 "inode": true,
                 "open": false,
+                "timeline": 'aaa',
                 "branch": [
                     {
                         "id": 2,
@@ -78,7 +82,82 @@
                 "my-hash": "hash-1",
                 "my-url": "sample.php?request=page-1"
             }];
-        var api = $('#tree1').aciTree({
+
+        function ModifyJsonObj(json_obj, key, f){
+            for (var k in json_obj){
+                if (k == key){
+                    json_obj[k] = f(json_obj[k]);
+                }else if (typeof(json_obj[k])==="object"){
+                    ModifyJsonObj(json_obj[k], key, f);
+                }
+            }
+        }
+
+        var x = d3.scale.linear()
+                .domain([0,400])
+                .range([0,800]);
+
+        function make_x_axis() {
+            return d3.svg.axis()
+                    .scale(x)
+                    .orient("bottom")
+                    .ticks(15)
+        }
+
+        function GetTimelineHTML (div){
+            var self = this;
+            // Add the X Axis
+             d3.select(div).selectAll("svg").remove();
+
+
+            //var axis = d3.axisBottom(x);
+
+            var svg =d3.select(div).append("svg")
+                    .attr("class", "axis")
+                    .attr("width", 1440)
+                    .attr("height", 20)
+                    .attr("background","beige")
+            //var xAxis = d3.svg.axis().scale(x);
+
+            //var xAxis_group = svg.append("g").call(xAxis);
+            var svg_g = svg.append("g")//.append("rect").attr("background", "red").attr("width","100px").attr("height","200px");
+                    .attr("class", "time_line_grid")
+                    .attr("transform", "translate(0," + 25+ ")")
+                    .attr({
+                        'fill':'yellow',
+                        'stroke':'grey',
+                        'opacity':0.6
+                    })
+                    .call(make_x_axis()
+                            .tickSize(-20, 0, 0)
+                            .tickFormat("")
+                    );
+            svg.selectAll("rect").remove();
+            svg.append("g").append("rect")
+                    .attr("width","15px")
+                    .attr("height","15px")
+                    .attr("x","200px")
+                    .attr("y","5px")
+                    .attr("fill","yellow")
+                    .attr("stroke","black")
+                    .on("mouseover", function(){
+                        var a = d3.select(this);
+                        a.attr("fill","red")
+                        .attr("stroke","red")
+                    })
+                    .on("mouseout", function(){
+                        var a = d3.select(this);
+                        a.attr("fill","yellow")
+                        .attr("stroke","black")
+                    })
+
+
+            //console.log($("#xx").html());
+            //return $("#xx").html();
+            return svg;
+        }
+
+        var tree = $('#tree1').aciTree({
             columnData:[
                 {props:'des'},
                 {props:'timeline'}
@@ -95,13 +174,36 @@
                         case 'init':
                             $(this).aciTree('api').setWidth(0,300);
                             $(this).aciTree('api').setWidth(1,800);
-                            $(this).find('ul:first').css('with','30%');
+                            //$(this).find('ul:first').css('with','30%');
                             $(this).toggleClass('aciTreeColors',true);
+                            var a = $("#tree1 .aciTreeColumn1");
+                            $.each(a, function(index, div){
+                                if(div.innerText.indexOf("m")>=0){
+                                    div.innerText="";
+                                    GetTimelineHTML(div);
+                                }
+                            })
                             break;
                     }
                 });
-
+        var api = tree.aciTree('api');
+        //ModifyJsonObj(a,"timeline",f);
         //api.loadFrom(null,{itemData:a})
+
+        /**$.getJSON('../data/patient.json', function(data){
+            //ModifyJsonObj(data,"timeline",GetTimelineHTML);
+            //api.loadFrom(null,{itemData:a})
+            api.loadFrom(null, {itemData:data})
+            api.setWidth(0,300);
+            api.setWidth(1,800);
+            var a = $(".aciTreeColumn1");
+            $.each(a, function(index, div){
+                if(div.innerText.indexOf("m")>=0){
+                    GetTimelineHTML(div);
+                }
+            })
+        })**/
+
 
 
     </script>

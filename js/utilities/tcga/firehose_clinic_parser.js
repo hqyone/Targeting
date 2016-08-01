@@ -210,7 +210,7 @@ var patient_ls_2_json = function(patient_ls, filename){
     var id =0;
     var root_obj = {id:0,
         label:"Patient ["+patient_ls.length+"]",
-        inode:true,des:"des",open:true, branch:[]}
+        inode:true,des:"des",open:true, branch:[],"icon":"patient"}
     for (var i =0; i<patient_ls.length; i++){
         root_obj.branch.push(patient_ls[i].toTreeJson(i));
     }
@@ -415,6 +415,7 @@ var tcga_2_normal_patient =function(TCGA_patient){
             p.malignancys.push(m);
         }
     }
+    p.getDaysRange();
     return p;
 }
 
@@ -423,8 +424,8 @@ project_path_ls.pop();
 project_path_ls.pop();
 project_path_ls.pop();
 
-//var clinic_file =project_path_ls.join("/")+'/data/BRCA.clin.merged_test.txt';
-var clinic_file =project_path_ls.join("/")+'/data/LUSC.merge_clin_test.txt';
+var clinic_file =project_path_ls.join("/")+'/data/BRCA.clin.merged_test.txt';
+//var clinic_file =project_path_ls.join("/")+'/data/LUSC.merge_clin_test.txt';
 var patient_json_file = project_path_ls.join("/")+'/public/data/patient.json';
 
 //var clinic_file = "/Users/qhe/Documents/Databases/TCGA/firehose/key_data/lusc/gdac.broadinstitute.org_LUSC.Merge_Clinical.Level_1.2016012800.0.0/LUSC.clin.merged_test.txt";

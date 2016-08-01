@@ -47,7 +47,10 @@ function Malignancy(){
 Malignancy.prototype.getTimeLineStr =function()
 {
     var self =this;
-    var result = "m,"+self.site+","+self.dx_days+";";
+    var result = "";
+    if(dx_days!=null){
+        result = "m,"+self.site+","+self.dx_days+";";
+    }
     return result;
 };
 
