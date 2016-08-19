@@ -11,17 +11,26 @@
 <script src="http://the5fireblog.b0.upaiyun.com/staticfile/jquery-1.10.2.js"></script>
 <script src="http://the5fireblog.b0.upaiyun.com/staticfile/underscore.js"></script>
 <script src="http://the5fireblog.b0.upaiyun.com/staticfile/backbone.js"></script>
+<script src = "../../public/js/share/oop.js"></script>
 <script src = "../../public/js/plots/my_plot.js"></script>
 <script src = "../../public/js/plots/kmplot.js"></script>
+<script src = "../../public/js/statistics/logrank.js"></script>
+<script src = "../../public/js/statistics/chiCalc.js"></script>
 <script>
     (function ($) {
+        var result = longRank(test_data.data1, test_data.data2);
+        var ls = [ { a: 1, b: 2 }, { a: 3, b: 3 }, { a: 4, b: 4 }, { a: 1, b: 9 } ];
+        _.each(ls, function(b){b.c=1;});
+        //var new_ls = _.uniq(ls,function(b){return b.a})
+        console.log(JSON.stringify(ls));
         var a = new MyPlot("id", "type",  "parent_div_id", undefined);
 
         a.render();
 
-        var b = new KMPlot("id", "type",  "parent_div_id", undefined);
+        var b = new KMPlot("km_id","km_parent_div_id", undefined);
         b.initialization(undefined, undefined);
-        b.render();
+        b.newfunc();
+        //b.render();
         World = Backbone.Model.extend({
             //创建一个World的对象，拥有name属性
             name: null
