@@ -4,7 +4,7 @@
 var fs =  require('fs');
 var csv = require("fast-csv");
 var path = require("path");
-var ds =  require(path.join(CODE2.project_dir+"/js/registry/registry_ds.js"));
+//var ds =  require(path.join(Targeting.project_dir+"/js/registry/registry_ds.js"));
 
 function get_ds_ls(){
 
@@ -15,7 +15,7 @@ function get_ds_ls(){
 function load_targeting_ds() {
     try{
         console.log("Initial/Reload the data source for Targeting ...");
-        ds.load_to_global_ds(registry_ds.registry_ds_dic);
+        //ds.load_to_global_ds(registry_ds.registry_ds_dic);
         //console.log("Done");
     }catch(err){
         console.log("Something wrong when loading data source to CODE2" + err.message);

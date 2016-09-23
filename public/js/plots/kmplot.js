@@ -11,14 +11,14 @@ var KMPlot = function(id, parent_div_id, settings){
             des: "",
             style: {color: "red", symbol: "circle"},
             case_ls: [
-                {"i": "masterdeid1", "censer": "n", "t": 100 / 365}
+                {"i": "masterdeid1", "c": "n", "t": 34}
             ]
         },
         category2: {
             des: "",
             style: {color: "red", symbol: "cross"},
             case_ls: [
-                {"i": "masterdeid1", "censer": "n", "t": 100 / 365}
+                {"i": "masterdeid1", "c": "n", "t": 45}
             ]
         }
     }

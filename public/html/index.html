@@ -1,33 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 100%;">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
-<script>
-    var data = [
-        {
-            name: 'node1',
-            children: [
-                { name: 'child1' },
-                { name: 'child2' }
-            ]
-        },
-        {
-            name: 'node2',
-            children: [
-                { name: 'child3' }
-            ]
+<body style="height:100%; ">
+<link rel='stylesheet' type='text/css' href='../js/ex_libs/bower_components/jQuery-contextMenu/src/jquery.contextMenu.css'/>
+<link rel='stylesheet' type='text/css' href='../js/ex_libs/bower_components/font-awesome/css/font-awesome.css'/>
+
+<script src='../js/ex_libs/bower_components/jquery/dist/jquery.min.js'></script>
+<script src='../js/ex_libs/bower_components/jQuery-contextMenu/src/jquery.contextMenu.js'></script>
+<script src='../js/ex_libs/bower_components/jQuery-contextMenu/src/jquery.ui.position.js'></script>
+
+<script src='../js/ex_libs/react-15.3.1/build/react.min.js'></script>
+<script src='../js/ex_libs/react-15.3.1/build/react-dom.min.js'></script>
+
+<link rel='stylesheet' type='text/css' href='../js/ex_libs/GoldenLayout/css/goldenlayout-base.css'/>
+<link rel='stylesheet' type='text/css' href='../js/ex_libs/GoldenLayout/css/goldenlayout-dark-theme.css'/>
+<script src='../js/ex_libs/GoldenLayout/js/goldenlayout.min.js'></script>
+<script src='../js/ex_libs/bower_components/jQuery-contextMenu/src/jquery.ui.position.js'></script>
+
+<script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
+<script src="https://unpkg.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="../js/ex_libs/bower_components/webcabin-docker/Build/wcDocker.min.css"/>
+<script src="../js/ex_libs/bower_components/webcabin-docker/Build/wcDocker.min.js"></script>
+
+<link rel="stylesheet" href ="../js/ex_libs/jquery-ui-1.11.4/jquery-ui.min.css">
+<link rel="stylesheet" href="../css/aciTree.css">
+
+<script src="../js/ex_libs/jquery-ui-1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+<script src="../js/ex_libs/aciTree/js/jquery.aciPlugin.min.js"></script>
+<script src="../js/ex_libs/aciTree/js/jquery.aciTree.min.js"></script>
+<script src="../js/ex_libs/d3.min.js"></script>
+<script src="../js/model/react_model.js" type = "text/babel"></script>
+
+
+<div id="panel_div" style="position:relative;top:0; left:0;width: 100%; height: 50px; -webkit-user-select: none; background: #010101; color: #d15f44;">Targeting</div>
+<script type="text/babel">
+
+    var x = d3.scale.linear()
+            .domain([0,400])
+            .range([0,800]);
+
+    function make_x_axis() {
+        return d3.svg.axis()
+                .scale(x)
+                .orient("bottom")
+                .ticks(15)
+    }
+
+    function GetTimelineHTML (div){
+        var self = this;
+        // Add the X Axis
+        d3.select(div).selectAll("svg").remove();
+
+
+        //var axis = d3.axisBottom(x);
+
+        var svg =d3.select(div).append("svg")
+                .attr("class", "axis")
+                .attr("width", 1440)
+                .attr("height", 20)
+                .attr("background","beige")
+        //var xAxis = d3.svg.axis().scale(x);
+
+        //var xAxis_group = svg.append("g").call(xAxis);
+        var svg_g = svg.append("g")//.append("rect").attr("background", "red").attr("width","100px").attr("height","200px");
+                .attr("class", "time_line_grid")
+                .attr("transform", "translate(0," + 25+ ")")
+                .attr({
+                    'fill':'yellow',
+                    'stroke':'grey',
+                    'opacity':0.6
+                })
+                .call(make_x_axis()
+                        .tickSize(-20, 0, 0)
+                        .tickFormat("")
+                );
+        svg.selectAll("rect").remove();
+        svg.append("g").append("rect")
+                .attr("width","15px")
+                .attr("height","15px")
+                .attr("x","200px")
+                .attr("y","5px")
+                .attr("fill","yellow")
+                .attr("stroke","black")
+                .on("mouseover", function(){
+                    var a = d3.select(this);
+                    a.attr("fill","red")
+                            .attr("stroke","red")
+                })
+                .on("mouseout", function(){
+                    var a = d3.select(this);
+                    a.attr("fill","yellow")
+                            .attr("stroke","black")
+                })
+
+
+        //console.log($("#xx").html());
+        //return $("#xx").html();
+        return svg;
+    }
+
+    $(document).ready(function() {
+        <div id="line-user"></div>
+
+        var config = {
+            content: [{
+                type: 'row',
+                content:[{
+                    type:'react-component',
+                    component: 'testComponent',
+                    props: { label: 'A' }
+                },{
+                    type: 'column',
+                    content:[{
+                        type:'react-component',
+                        component: 'testComponent',
+                        props: { label: 'B' }
+                    },{
+                        type:'react-component',
+                        component: 'myComponent',
+                        props: { label: 'C' }
+                    }]
+                }]
+            }]
         }
-    ];
 
-    $(function() {
-        $('#tree1').tree({
-            data: data
+        var TestComponent = React.createClass({
+            render: function() {
+                return (
+                <div className= "testComponent">
+                Hello, world! I am a CommentBox.
+                </div>
+                );
+            }
         });
-    });
 
+        var MyComponent = React.createClass({
+            render: function() {
+                return (
+                <div className= "myComponent">
+                Hello, world! It is my CommentBox.
+                </div>
+                );
+            }
+        });
+
+        var myLayout =new GoldenLayout(config);
+
+        myLayout.registerComponent('testComponent', TestComponent);
+        myLayout.registerComponent('myComponent', MyComponent);
+
+//Once all components are registered, call
+        myLayout.init();
+
+        //Add another component to the layout
+        myLayout.root.contentItems[ 0 ].addChild({
+            type:'react-component',
+            component: 'testComponent',
+            props: { label: 'X' }
+        });
+
+    });
 </script>
 </body>
 </html>

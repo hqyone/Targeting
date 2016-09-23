@@ -1,9 +1,7 @@
 /**
  * Created by hqyone on 7/18/16.
  */
-/**
- * Created by hqyone on 7/17/16.
- */
+
 var _ = require("underscore");
 require("underscore.deep");
 var fs = require('fs');

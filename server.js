@@ -24,6 +24,8 @@ Targeting.project_dir = __dirname;
 Targeting.ds = {};
 Targeting.divs = {}; //The div server, it is the key component to generate visualization
 
+var users = require('./js/users.js');
+
 //Configure the local strategy for use by Passport
 // The local strategy require a `verify` function which receives the credentials
 // (`username` and `password`) submitted by the user.  The function must verify
@@ -79,3 +81,84 @@ app.use(passport.session());
 
 //Initialize/Load datasource into memory
 var ds_loader = require(path.join(__dirname+"/js/datasource/ds_loader.js"));
+
+
+//Initialize/Load datasource into memory
+//var dm = require(path.join(__dirname+"/js/datasource/ds_loader.js"));
+//dm.load_code2_ds();
+
+//Set the public folder is public for access
+//So html will use /js/ext_libs/jquery-2.1.3.min.js to access the javascript file
+app.use(express.static('./public'));
+
+//Parse application/json
+app.use(bodyParser.json({limit: '20mb'}));
+//app.use(bodyParser({limit: '20mb'}));
+app.use(flash());
+
+
+app.post('/login',
+    passport.authenticate('local', { successRedirect: '/public/html',
+        failureRedirect: '/login',
+        failureFlash: "Invalid username or password",
+        successFlash: "Welcome!"
+    })
+);
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+        return next();
+    res.redirect('/');
+}
+
+app.all('/public/html', isLoggedIn);
+app.get('/public/html', function(req, res){
+    console.log(req.user);
+    //res.sendFile(path.join(__dirname+'/public/html/index.html'));
+    res.sendFile(path.join(__dirname+'/public/html/index.html'));
+});
+
+app.get('/login',function(req, res){
+    res.sendFile(path.join(__dirname+'/public/html/login.html'));
+});
+
+app.get('/logout',
+    function(req, res){
+        //req.session.destroy();
+        //req.logout();
+        //res.sendFile(path.join(__dirname+'/public/html/login.html'));
+        //res.redirect("/");
+        //res.send("logged out", 401);
+        req.session.destroy(function () {
+            res.redirect(301, '/');
+        });
+    });
+
+app.get('/logout',
+    function(req, res){
+        //req.session.destroy();
+        //req.logout();
+        //res.sendFile(path.join(__dirname+'/public/html/login.html'));
+        //res.redirect("/");
+        //res.send("logged out", 401);
+        req.session.destroy(function () {
+            res.redirect(301, '/');
+        });
+    });
+
+app.get('/todo',
+    function(req, res){
+        //res.send({title:"a title",completed:false});
+        res.json({title:"a title",completed:false});
+    });
+
+app.get('/', function(req, res){
+    res.sendFile(path.join(__dirname+'/public/html/login.html'));
+    //res.sendFile(path.join(__dirname+'/public/html/index.html'))
+});
+
+var server = app.listen(3000, function(){
+    var host = server.address().address;
+    var port  = server.address().port;
+    console.log('Listening on part %d', port);
+});
