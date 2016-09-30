@@ -1,6 +1,9 @@
 /**
  * Created by qhe on 7/20/16.
  */
+
+var fs = require('fs');
+
 var sample_abb_dic={
     p_bc:"patient_barcode",
     bc:"bcr_sample_barcode",
@@ -48,6 +51,27 @@ Sample.prototype.toTreeJson=function(id){
         s_day:s_day,
         e_day:e_day
     }
+}
+Sample.prototype.WriteToDBTables =function(outdir){
+    var self =  this;
+    var tab_file = outdir+"/samples.tsv";
+    var content_ls = [];
+    content_ls.push('NULL');
+    content_ls.push(self.p_bc);
+    content_ls.push(self.bc);
+    content_ls.push(self.uu);
+    content_ls.push(self.ffpe);
+
+    content_ls.push(self.type);
+    content_ls.push(self.l_dim);
+    content_ls.push(self.s_dim);
+    content_ls.push(self.col_days);
+    content_ls.push(self.col_s_days);
+
+    content_ls.push(self.col_e_days);
+    content_ls.push(self.weight);
+
+    fs.appendFileSync(tab_file, content_ls.join("\t"), encoding='utf8');
 }
 
 module.exports.Sample = Sample;

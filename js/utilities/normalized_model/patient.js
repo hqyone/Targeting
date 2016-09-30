@@ -2,6 +2,8 @@
  * Created by qhe on 7/20/16.
  */
 
+var fs = require('fs');
+
 var patient_abb_dic={
     ts_site:"tissue_source_site",
     id:"patient_id",
@@ -58,6 +60,8 @@ function Patient(){
     this.tumor = "";
     this.s_days = -100;
     this.e_days = 0;
+    this.lineage_id ="";
+    this.lineage ="";
 
     this.samples=[];
     this.malignancys=[];
@@ -83,6 +87,54 @@ Patient.prototype.toTreeJson =function(id){
     result = addListToResult(result, self.followups, cid+50, "Followups");
     return result;
 };
+Patient.prototype.WriteToDBTables =function(outdir, lineage_id){
+    var self = this;
+    var patient_f = outdir+"/patient.tsv";
+
+    var malignancys_f = outdir+"/malignancys.tsv";
+    var treatments_f = outdir+"/treatments.tsv";
+    var followups_f = outdir+"/followups.tsv";
+    var radiations_f = outdir+"/radiations.tsv";
+    var tumor_events_f = outdir+"/tumor_events.tsv";
+
+    var content_ls = [];
+    content_ls.push(self.id);
+    content_ls.push(self.bc);
+    content_ls.push(self.uu);
+    content_ls.push(self.age);
+    content_ls.push(self.i10);
+
+    content_ls.push(self.o3s);
+    content_ls.push(self.o3h);
+    content_ls.push(self.b_days);
+    content_ls.push(self.d_days);
+    content_ls.push(self.l_days);
+
+    content_ls.push(self.dx);
+    content_ls.push(self.dx_days);
+    content_ls.push(self.dx_age);
+    content_ls.push(self.dx_year);
+    content_ls.push(self.g);
+
+    content_ls.push(self.r);
+    content_ls.push(self.stage);
+    content_ls.push(self.p_m);
+    content_ls.push(self.p_n);
+    content_ls.push(self.p_t);
+
+    content_ls.push(self.tt_site);
+    content_ls.push(self.vital);
+    content_ls.push(self.c_status);
+    content_ls.push(self.tumor);
+    content_ls.push(lineage_id);
+
+    fs.appendFileSync(patint_f, content_ls.join("\t"), encoding='utf8');
+    for (var i =0; i<self.samples.length; i++){
+        var cur_sample = self.samples[i];
+        cur_sample.WriteToDBTables(outdir)
+    }
+}
+
 
 Patient.prototype.getDaysRange = function(){
     var self =this;

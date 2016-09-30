@@ -32,5 +32,9 @@ Portion.prototype.toTreeJson=function(id){
     }
 }
 
+Portion.prototype.WriteToDBTables =function(outdir){
+
+}
+
 module.exports.Portion = Portion;
 module.exports.portion_abb_dic = portion_abb_dic;

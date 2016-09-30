@@ -114,7 +114,7 @@ VolcanoPlot.prototype.render = function(input_data, settings){
         svg_g.select(".x.axis.grid").call(self.xAxis);
         svg_g.select(".y.axis.grid").call(self.yAxis);
         masked_svg_g.selectAll(".redrawable").attr("transform", "translate(" + d3.event.translate + ")" + "scale(" + d3.event.scale + ")");
-        clear_all_tooltips();
+        //clear_all_tooltips();
     }
     var zoom = d3.behavior.zoom()
         .x(self.xscale)
@@ -160,7 +160,7 @@ VolcanoPlot.prototype.render = function(input_data, settings){
 
     self.draw_legends(masked_svg_g);
     self.draw_serie_ls(masked_svg_g);
-    draw_Print_Legend(self.parent_div_id + "_volcano_svg", undefined, {width:self.settings.width, height:self.settings.height});
+    //draw_Print_Legend(self.parent_div_id + "_volcano_svg", undefined, {width:self.settings.width, height:self.settings.height});
 }
 
 

@@ -7,6 +7,7 @@
 var fs = require('fs');
 var path = require('path');
 var readline = require('readline');
+var __=require('underscore');
 var patient = require("../normalized_model/patient.js");
 var malignancy = require("../normalized_model/malignancy.js");
 var analyte = require("../normalized_model/analyte.js");
@@ -17,7 +18,7 @@ var treatment = require("../normalized_model/treatment.js");
 var tumor_events = require("../normalized_model/tumor_events.js");
 var radiation = require("../normalized_model/radiation.js");
 
-var gatk_cohort_abb_dic={
+var gatk_cohort_lineage_dic={
     Adrenocortical_carcinoma:'ACC',
     Bladder_urothelial_carcinoma:'BLCA',
     Breast_invasive_carcinoma:'BRCA',
@@ -56,7 +57,9 @@ var gatk_cohort_abb_dic={
     Uterine_Corpus_Endometrial_Carcinoma:'UCEC',
     Uterine_Carcinosarcoma:'UCS',
     Uveal_Melanoma:'UVM',
-}
+};
+
+var gatk_cohor_lineage_abb_dic= __.invert(gatk_cohort_lineage_dic);
 
 var gatk_cohort_={
     Adrenocortical_carcinoma:92,
@@ -97,7 +100,7 @@ var gatk_cohort_={
     Uterine_Corpus_Endometrial_Carcinoma:560,
     Uterine_Carcinosarcoma:57,
     Uveal_Melanoma:80
-}
+};
 
 var get_obj_type= function(id){
     if (id.indexOf("drug")>=0){
@@ -306,7 +309,7 @@ var patient_ls_2_json = function(patient_ls, filename){
 
 }
 
-var tcga_2_normal_patient =function(TCGA_patient){
+var tcga_2_normal_patient =function(TCGA_patient, lineage_ID){
     var p = new patient.Patient();
     p.bc = getAttribute(TCGA_patient,"bcr_patient_barcode");
     p.id = getAttribute(TCGA_patient,"patient_id");
@@ -337,6 +340,10 @@ var tcga_2_normal_patient =function(TCGA_patient){
     p.vital = getAttribute(TCGA_patient,"vital_status");
     p.c_status = getAttribute(TCGA_patient,"person_neoplasm_cancer_status");
     p.tumor = getAttribute(TCGA_patient,"residual_tumor");
+    p.lineage_id = lineage_ID;
+    if (lineage_ID in  gatk_cohor_lineage_abb_dic){
+        p.lineage = gatk_cohor_lineage_abb_dic[lineage_ID];
+    }
 
     if (TCGA_patient.samples!=undefined){
         var sample_dic = TCGA_patient.samples;
@@ -500,11 +507,14 @@ var tcga_2_normal_patient =function(TCGA_patient){
     return p;
 }
 
+module.exports.read_table_file =read_table_file;
+
 var project_path_ls = __dirname.split("/");
 project_path_ls.pop();
 project_path_ls.pop();
 project_path_ls.pop();
 
+//Read biotab files
 var clinic_file =project_path_ls.join("/")+'/data/BRCA.clin.merged_test.txt';
 //var clinic_file =project_path_ls.join("/")+'/data/LUSC.merge_clin_test.txt';
 var patient_json_file = project_path_ls.join("/")+'/public/data/patient.json';

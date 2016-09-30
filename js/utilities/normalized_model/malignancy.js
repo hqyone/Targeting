@@ -44,6 +44,10 @@ function Malignancy(){
     this.dx_days=null;
 }
 
+Malignancy.prototype.toDBTabString = function(){
+
+}
+
 Malignancy.prototype.getTimeLineStr =function()
 {
     var self =this;
