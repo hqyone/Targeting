@@ -91,12 +91,6 @@ Patient.prototype.WriteToDBTables =function(outdir, lineage_id){
     var self = this;
     var patient_f = outdir+"/patient.tsv";
 
-    var malignancys_f = outdir+"/malignancys.tsv";
-    var treatments_f = outdir+"/treatments.tsv";
-    var followups_f = outdir+"/followups.tsv";
-    var radiations_f = outdir+"/radiations.tsv";
-    var tumor_events_f = outdir+"/tumor_events.tsv";
-
     var content_ls = [];
     content_ls.push(self.id);
     content_ls.push(self.bc);
@@ -128,10 +122,30 @@ Patient.prototype.WriteToDBTables =function(outdir, lineage_id){
     content_ls.push(self.tumor);
     content_ls.push(lineage_id);
 
-    fs.appendFileSync(patint_f, content_ls.join("\t"), encoding='utf8');
+    fs.appendFileSync(patient_f, content_ls.join("\t")+"\n", encoding='utf8');
     for (var i =0; i<self.samples.length; i++){
         var cur_sample = self.samples[i];
         cur_sample.WriteToDBTables(outdir)
+    }
+    for (var i =0; i<self.malignancys.length; i++){
+        var cur_obj = self.malignancys[i];
+        cur_obj.WriteToDBTables(outdir)
+    }
+    for (var i =0; i<self.treatments.length; i++){
+        var cur_obj = self.treatments[i];
+        cur_obj.WriteToDBTables(outdir)
+    }
+    for (var i =0; i<self.followups.length; i++){
+        var cur_obj = self.followups[i];
+        cur_obj.WriteToDBTables(outdir)
+    }
+    for (var i =0; i<self.radiations.length; i++){
+        var cur_obj = self.radiations[i];
+        cur_obj.WriteToDBTables(outdir)
+    }
+    for (var i =0; i<self.tumor_events.length; i++){
+        var cur_obj = self.tumor_events[i];
+        cur_obj.WriteToDBTables(outdir)
     }
 }
 
@@ -192,6 +206,7 @@ var addListToResult=function(result, list, cid, name){
     }
     return result;
 };
+
 
 module.exports.Patient = Patient;
 module.exports.patient_abb_dic = patient_abb_dic;

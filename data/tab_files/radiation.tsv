@@ -1,0 +1,9 @@
+NULL	tcga-5l-aat0	0	tcga-5l-aat0-r63722	f11a131e-e0c5-4bce-a06b-bfeb0058aedd		371	411	25	5000	cgy	no	external	
+NULL	tcga-a1-a0sp	0	tcga-a1-a0sp-r4223	5e22e8a7-7cd2-4ded-a532-43cb2def4f91		215	259				no	external beam	adjuvant
+NULL	tcga-a2-a04y	1	tcga-a2-a04y-r70740	8d05878c-2457-487f-8df3-a4f0b1688d9e		251	290		5040	cgy	no	external	
+NULL	tcga-a2-a04y	0	tcga-a2-a04y-r2727	e64c8ab7-4c64-47d5-b50e-188fb963eed4	1	293	297		1000	cgy	no	external beam	adjuvant
+NULL	tcga-a2-a0cq	0	tcga-a2-a0cq-r1985	e74c5228-76c3-41d0-99f3-307ae0373b37	1	188	236	33	6040	cgy	no	external beam	adjuvant
+NULL	tcga-a2-a25a	0	tcga-a2-a25a-r14586	e691c50b-1796-4283-817c-0f5231b1908d	1							external beam	adjuvant
+NULL	tcga-a7-a0cd	0	tcga-a7-a0cd-r4383	5258db1e-4a32-4ee1-9be3-24a249424127	1	70	74	10	3400	cgy	no	other	adjuvant
+NULL	tcga-a7-a26e	0	tcga-a7-a26e-r14325	1308cf80-262b-4503-aa14-b83907126ca2	1	205	246	54	9720	cgy	no	external beam	adjuvant
+NULL	tcga-a7-a26f	0	tcga-a7-a26f-r29408	1a7dd856-99f0-40d6-90a7-1ba2202515f0	1	178	224	33	6100	cgy	no	external beam	adjuvant

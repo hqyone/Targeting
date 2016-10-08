@@ -1,6 +1,10 @@
 /**
  * Created by qhe on 7/20/16.
  */
+
+var fs = require('fs');
+
+
 var treatment_abb_dic={
     p_bc:"patient_barcode",
     i:"index",
@@ -45,6 +49,31 @@ Treatment.prototype.toTreeJson=function(id){
         e_day:self.e_days
     }
 }
+
+Treatment.prototype.WriteToDBTables =function(outdir){
+    var self =  this;
+    var tab_file = outdir+"/treatment.tsv";
+    var content_ls = [];
+    content_ls.push('NULL');
+    content_ls.push(self.p_bc);
+    content_ls.push(self.i);
+    content_ls.push(self.bc);
+    content_ls.push(self.uu);
+    content_ls.push(self.s_days);
+    content_ls.push(self.e_days);
+
+
+    content_ls.push(self.name);
+    content_ls.push(self.ongoing);
+    content_ls.push(self.type);
+    content_ls.push(self.dose);
+
+    content_ls.push(self.unit);
+    content_ls.push(self.tx_trial);
+    content_ls.push(self.response);
+
+    fs.appendFileSync(tab_file, content_ls.join("\t")+"\n", encoding='utf8');
+};
 
 module.exports.Treatment = Treatment;
 module.exports.treatment_abb_dic = treatment_abb_dic;

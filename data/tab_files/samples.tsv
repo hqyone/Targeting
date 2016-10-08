@@ -1,0 +1,29 @@
+NULL	tcga-5l-aat0	tcga-5l-aat0-10a	1d805782-f68c-4752-a97c-77b9177ddaa3	no	blood derived normal			1320			
+NULL	tcga-5l-aat0	tcga-5l-aat0-01a	8434f4a2-0ead-40f6-9b63-9c958a3fb812	no	primary tumor			1320			80
+NULL	tcga-5l-aat1	tcga-5l-aat1-10a	5d4b9024-0f9b-4688-91b8-417bc20adc43	no	blood derived normal			1259			
+NULL	tcga-5l-aat1	tcga-5l-aat1-01a	a31dec9b-3626-4cb0-8265-1425d5ce1c1e	no	primary tumor			1259			130
+NULL	tcga-a1-a0sp	tcga-a1-a0sp-10a	fbe60981-74ad-4f9c-9f25-e3db62860d7b	no	blood derived normal			958			
+NULL	tcga-a1-a0sp	tcga-a1-a0sp-01a	c0c04ba3-7fdf-47f3-8750-a487639a76df	no	primary tumor			958			40
+NULL	tcga-a2-a04v	tcga-a2-a04v-10a	e836362b-a517-4a2d-8f31-cce0af7a555b	no	blood derived normal			1812			
+NULL	tcga-a2-a04v	tcga-a2-a04v-01a	5dfab1d0-fed6-47b2-a47d-402e088361ad	no	primary tumor			1812			200
+NULL	tcga-a2-a04y	tcga-a2-a04y-10a	0752ba05-88ed-4d18-95a7-c508208251d5	no	blood derived normal			756			180
+NULL	tcga-a2-a04y	tcga-a2-a04y-01a	7cd3890a-bac7-42d0-a615-4b0f862200b8	no	primary tumor			756			220
+NULL	tcga-a2-a0cq	tcga-a2-a0cq-10a	9b965ede-1140-4cd1-85b1-7b9c465f3197	no	blood derived normal			2310			
+NULL	tcga-a2-a0cq	tcga-a2-a0cq-01a	28d6a08d-f73d-4981-882c-aac092fdebb9	no	primary tumor			2310			210
+NULL	tcga-a2-a1g4	tcga-a2-a1g4-10a	080d6c51-3aef-4d93-9e90-5fcc41fe5b94	no	blood derived normal			310			
+NULL	tcga-a2-a1g4	tcga-a2-a1g4-01a	81243c1f-affa-4985-ba0e-1f19db52db73	no	primary tumor			310			710
+NULL	tcga-a2-a25a	tcga-a2-a25a-10a	4c35561a-9fe5-4122-b74a-fc418af86852	no	blood derived normal			2927			
+NULL	tcga-a2-a25a	tcga-a2-a25a-01a	57e65074-4dc7-4f55-9638-8d123702305c	no	primary tumor			2927			160
+NULL	tcga-a7-a0cd	tcga-a7-a0cd-10a	12519edf-a14b-472e-98cc-d1825f3c2d39	no	blood derived normal			157			
+NULL	tcga-a7-a0cd	tcga-a7-a0cd-01a	69886602-a4f1-4ad4-ba56-a0e031c2e295	no	primary tumor			157			420
+NULL	tcga-a7-a13g	tcga-a7-a13g-01b	b4bb06b0-bb68-4f58-bff9-c072f09976c3	yes	primary tumor			445			
+NULL	tcga-a7-a13g	tcga-a7-a13g-11a	2086f4ed-61fd-450c-b9de-aa7e049d154d	no	solid tissue normal			69			880
+NULL	tcga-a7-a13g	tcga-a7-a13g-01a	6a1c2fdb-18ce-40ec-af79-191b489f39a7	no	primary tumor			69			120
+NULL	tcga-a7-a26e	tcga-a7-a26e-01b	e716eb8a-dccd-4f17-9bdc-e64dc2f0fd69	yes	primary tumor			588			
+NULL	tcga-a7-a26e	tcga-a7-a26e-10a	c8af8732-0e02-4100-a2f6-8c7823fd01b9	no	blood derived normal			372			
+NULL	tcga-a7-a26e	tcga-a7-a26e-01a	d6023f30-0d07-4839-98d1-0b22b366cc51	no	primary tumor			372			230
+NULL	tcga-a7-a26f	tcga-a7-a26f-01b	29619d1e-e8b4-411e-bbba-07f2cfb69e8a	yes	primary tumor			389			
+NULL	tcga-a7-a26f	tcga-a7-a26f-10a	ced2fbf9-7eff-4a09-bb0b-b347e27e6a20	no	blood derived normal			173			
+NULL	tcga-a7-a26f	tcga-a7-a26f-01a	0edccd9b-72e9-4c69-899e-4bba4dbacb40	no	primary tumor			173			190
+NULL	tcga-a7-a26h	tcga-a7-a26h-10a	c76dbb37-8810-4353-a967-5f898bb94477	no	blood derived normal			79			
+NULL	tcga-a7-a26h	tcga-a7-a26h-01a	7de9f347-2a8b-4647-bd46-011d74fc48fc	no	primary tumor			79			280

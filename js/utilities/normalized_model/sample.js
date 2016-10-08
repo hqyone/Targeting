@@ -71,7 +71,7 @@ Sample.prototype.WriteToDBTables =function(outdir){
     content_ls.push(self.col_e_days);
     content_ls.push(self.weight);
 
-    fs.appendFileSync(tab_file, content_ls.join("\t"), encoding='utf8');
+    fs.appendFileSync(tab_file, content_ls.join("\t")+"\n", encoding='utf8');
 }
 
 module.exports.Sample = Sample;

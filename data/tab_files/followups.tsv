@@ -1,0 +1,15 @@
+NULL	tcga-a2-a04v	0	tcga-a2-a04v-f10273	8a12f731-0d21-451d-aed9-2677f2356de2		0	1920	1470	1920		with tumor			no	yes	
+NULL	tcga-a2-a04y	0	tcga-a2-a04y-f9330	0ce61cba-c744-4182-820c-81c33344dfcd		0	1099				tumor free			yes	yes	
+NULL	tcga-a2-a0cq	0	tcga-a2-a0cq-f13723	3276c085-4370-48d5-9ba7-76adde69842d		0	2695			scheduled follow-up submission	tumor free			yes	yes	
+NULL	tcga-a2-a1g4	0	tcga-a2-a1g4-f20805	05cf4c23-40fe-4f52-b9e0-3be877bc4f3f		0	595			scheduled follow-up submission	tumor free			no	yes	
+NULL	tcga-a2-a25a	0	tcga-a2-a25a-f30927	23da0430-b849-4d44-91a7-3099f6931b76		0	3276			scheduled follow-up submission	tumor free			yes	yes	
+NULL	tcga-a7-a0cd	1	tcga-a7-a0cd-f39827	131c07da-8e6a-44e7-898d-deb2e3d91277		0	1165				tumor free			yes		
+NULL	tcga-a7-a0cd	0	tcga-a7-a0cd-f3310	67ded7b1-e8a4-4e39-a848-1d9113d6382f		0	372				tumor free			yes	yes	
+NULL	tcga-a7-a13g	1	tcga-a7-a13g-f35039	25a9d546-be0a-4f1d-be67-d3d8653307f9		0	718				tumor free			no		
+NULL	tcga-a7-a13g	0	tcga-a7-a13g-f17696	087e9825-65b1-4984-b360-0c86ea23e197		0	348			scheduled follow-up submission	tumor free			no	yes	
+NULL	tcga-a7-a26e	1	tcga-a7-a26e-f39792	3eb59670-fb49-4558-a017-3800a97063fb		0	954				tumor free			yes		
+NULL	tcga-a7-a26e	0	tcga-a7-a26e-f14328	f9e29a3b-e71e-4720-b9b3-c9e1da264fda		0	421			scheduled follow-up submission	tumor free			yes	yes	
+NULL	tcga-a7-a26f	1	tcga-a7-a26f-f38499	29e46924-1fde-481f-bd36-f129490e2fd3		0	738				tumor free			yes		
+NULL	tcga-a7-a26f	0	tcga-a7-a26f-f29372	ce91bb2a-703b-4b86-8623-955310bb6b5a		0	459			scheduled follow-up submission	tumor free			yes	yes	
+NULL	tcga-a7-a26h	1	tcga-a7-a26h-f39890	5f40a4b3-5b64-42a8-bc00-6dcdcbe7883d		0	724				with tumor			no		
+NULL	tcga-a7-a26h	0	tcga-a7-a26h-f29621	fd079079-3ac7-4d84-a3e4-04cdd759a2ff		0	400	291		scheduled follow-up submission	with tumor			no	yes	

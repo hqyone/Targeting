@@ -1,0 +1,15 @@
+NULL	tcga-5l-aat0	0	tcga-5l-aat0-o63720	9b562c8b-e54e-411d-b156-a55caa0c3655	synchronous malignancy	stage ib2					cervix		"adenocarcinoma, not otherwise specified"		yes	2	no	39
+NULL	tcga-5l-aat1	0	tcga-5l-aat1-o63715	a1b8ade9-aac6-4730-aa2e-24b454e8252f	prior malignancy		stage iia	m0	n0	t2	breast		"other, specify"	tubulo-lobular invasive carcinoma	yes	1	yes	-3886
+NULL	tcga-a1-a0sp	0	tcga-a1-a0sp-o17587	6b701b59-f79d-49cf-bb3c-0e972553a284	prior malignancy						breast					0		
+NULL	tcga-a2-a04v	0	tcga-a2-a04v-o12162	e16fccbc-062f-4054-9f8d-eb0e1943ee6a	synchronous malignancy		stage iia	m0	n0	t2	breast		"other, specify"	infiltrating ductal carcinoma	no	4		
+NULL	tcga-a2-a04y	0	tcga-a2-a04y-o12179	073487c6-69cc-4d8a-ae88-3c4d4d4d6114	synchronous malignancy		stage iia	m0	n0	t2	breast		"other, specify"	infiltrating ductal carcinoma	no	6		
+NULL	tcga-a2-a0cq	0	tcga-a2-a0cq-o12620	59a55397-a27b-4c81-a51d-1edbe223740b	synchronous malignancy		stage ia	m0	n0 (i-)	t1	breast		"other, specify"	invasive ductal carcinoma	no	0		
+NULL	tcga-a2-a1g4	0	tcga-a2-a1g4-o9233	92ca0875-4e6a-4053-bbed-306998438887	synchronous malignancy		stage iiia	m0	n2a	t2	breast		"other, specify"	infiltrating lobular carcinoma	no	0		
+NULL	tcga-a2-a25a	0	tcga-a2-a25a-o12635	df4dbab0-9d4a-4fcd-9d0e-818366f0f5f1	synchronous malignancy		stage 0	m0	nx	tis (lcis)	breast		"other, specify"	lobular carcinoma in situ	no	0		
+NULL	tcga-a7-a0cd	0	tcga-a7-a0cd-o8722	5cbfde48-2053-4495-8e13-1616bb984b34	prior malignancy						uterus				no	0		
+NULL	tcga-a7-a13g	1	tcga-a7-a13g-o7592	6c6466fd-d311-4fd7-b64c-81d0a6582281	prior malignancy						"head - face or neck, nos"		"other, specify"	melanoma in situ	no	0		
+NULL	tcga-a7-a13g	0	tcga-a7-a13g-o7591	fd03a4b2-5472-4c64-8e0b-387c2ec70177	prior malignancy						back		"other, specify"	melanoma in situ	no	0		
+NULL	tcga-a7-a26e	1	tcga-a7-a26e-o11301	f73863e2-1115-4304-80ac-9d1770ea93fd	synchronous malignancy		stage ia	m0	n0	t1a	breast		"other, specify"	"lobular carcinoma in situ, ductal carcinoma in situ, and invasive ductal carcinoma"	no	0		
+NULL	tcga-a7-a26e	0	tcga-a7-a26e-o9854	445f749e-43e3-40cc-9cb6-f16da7caa850	prior malignancy						kidney		kidney clear cell renal carcinoma		no	0		
+NULL	tcga-a7-a26f	0	tcga-a7-a26f-o14685	ed0024a1-9961-48f5-b43d-0ec9c361adb5	prior malignancy						"head - face or neck, nos"				no	0		
+NULL	tcga-a7-a26h	0	tcga-a7-a26h-o11150	97754a04-6ab7-4be6-875d-355ce341ad03	synchronous malignancy					t1	breast		"other, specify"	infiltrating ductal carcinoma	no	0		

@@ -1,6 +1,8 @@
 /**
  * Created by qhe on 7/20/16.
  */
+var fs = require('fs');
+
 var followup_abb_dic={
     p_bc:"patient_barcode",
     i:"index",
@@ -64,7 +66,7 @@ FollowUp.prototype.WriteToDBTables =function(outdir){
     content_ls.push(self.drug_tx);
     content_ls.push(self.vital);
 
-    fs.appendFileSync(tab_file, content_ls.join("\t"), encoding='utf8');
+    fs.appendFileSync(tab_file, content_ls.join("\t")+"\n", encoding='utf8');
 };
 
 FollowUp.prototype.getTimeLineStr =function()

@@ -1,0 +1,51 @@
+NULL	tcga-5l-aat0	1	tcga-5l-aat0-o63720	9b562c8b-e54e-411d-b156-a55caa0c3655	57		carboplatin						
+NULL	tcga-5l-aat0	0	tcga-5l-aat0-o63720	9b562c8b-e54e-411d-b156-a55caa0c3655	57		paclitaxel						
+NULL	tcga-5l-aat0	0	tcga-5l-aat0-d63723	bca5b47a-be3a-4258-8a17-692d7dfddf87	322		tamoxifen	yes	hormone therapy;			no	
+NULL	tcga-5l-aat1	0	tcga-5l-aat1-o63715	a1b8ade9-aac6-4730-aa2e-24b454e8252f	-3779		tamoxifen						
+NULL	tcga-5l-aat1	0	tcga-5l-aat1-d63716	747059ae-dc7b-409f-9178-2dd683c19a6f	46		letrozol	yes	hormone therapy;			no	
+NULL	tcga-a1-a0sp	0	tcga-a1-a0sp-d4489	d44ad8b4-4b21-4f10-a99a-eeb2c92222fd	108	173		no	chemotherapy;				
+NULL	tcga-a2-a04v	1	tcga-a2-a04v-o12162	e16fccbc-062f-4054-9f8d-eb0e1943ee6a			adriamycin						
+NULL	tcga-a2-a04v	2	tcga-a2-a04v-o12162	e16fccbc-062f-4054-9f8d-eb0e1943ee6a			tamoxifen						
+NULL	tcga-a2-a04v	3	tcga-a2-a04v-o12162	e16fccbc-062f-4054-9f8d-eb0e1943ee6a			letrozole						
+NULL	tcga-a2-a04v	4	tcga-a2-a04v-o12162	e16fccbc-062f-4054-9f8d-eb0e1943ee6a			exemestane						
+NULL	tcga-a2-a04v	1	tcga-a2-a04v-d2672	c1e949b8-77cf-4bbb-b6f2-a74ede20457a	107	1258	tamoxifen	no	hormone therapy;				
+NULL	tcga-a2-a04v	2	tcga-a2-a04v-d2668	8e869f6b-ed8a-4174-ad9e-fff54d6496cc	50	92	adriamycin	no	chemotherapy;	460	mg		
+NULL	tcga-a2-a04v	3	tcga-a2-a04v-d2768	4de0e435-5d29-44a0-a877-986681b96a3b	1269	1439	letrozole	no	hormone therapy;				
+NULL	tcga-a2-a04v	4	tcga-a2-a04v-d2673	41160c56-81c5-42b7-83b8-cc0018073cac	1452		exemestane	no	hormone therapy;				
+NULL	tcga-a2-a04v	5	tcga-a2-a04v-d2674	a2308b51-8301-425e-b065-0be458fe1672	1577		xeloda	no	chemotherapy;				
+NULL	tcga-a2-a04v	0	tcga-a2-a04v-d2667	e691b7e7-6b22-430c-9b18-b7f08912f85a	50	92	cytoxan	no	chemotherapy;	4584	mg		
+NULL	tcga-a2-a04y	1	tcga-a2-a04y-o12179	073487c6-69cc-4d8a-ae88-3c4d4d4d6114			adriamycin						
+NULL	tcga-a2-a04y	2	tcga-a2-a04y-o12179	073487c6-69cc-4d8a-ae88-3c4d4d4d6114			taxol						
+NULL	tcga-a2-a04y	3	tcga-a2-a04y-o12179	073487c6-69cc-4d8a-ae88-3c4d4d4d6114			herceptin						
+NULL	tcga-a2-a04y	4	tcga-a2-a04y-o12179	073487c6-69cc-4d8a-ae88-3c4d4d4d6114			tamoxifen						
+NULL	tcga-a2-a04y	5	tcga-a2-a04y-o12179	073487c6-69cc-4d8a-ae88-3c4d4d4d6114			arimidex						
+NULL	tcga-a2-a04y	6	tcga-a2-a04y-o12179	073487c6-69cc-4d8a-ae88-3c4d4d4d6114			zometa (bisphosphonate therapy)						
+NULL	tcga-a2-a04y	1	tcga-a2-a04y-d2754	e34536c3-f6b1-4a30-8208-da6658e0d4bd	503		zometa	yes	"other, specify in notes";therapy_type_notes:bisphosphonate therapy;				
+NULL	tcga-a2-a04y	2	tcga-a2-a04y-d2741	d6d00a85-5494-4f08-8711-63169285c197	273	371	tamoxifen	no	hormone therapy;				
+NULL	tcga-a2-a04y	3	tcga-a2-a04y-d2731	351c5069-eb0c-468e-ba16-bf6ab636303f	93	135	adriamycin	no	chemotherapy;	480	mg		
+NULL	tcga-a2-a04y	4	tcga-a2-a04y-d2732	e7199f09-af18-4584-8015-6eebc968cd8c	149	226	taxol	no	chemotherapy;	3900	mg		
+NULL	tcga-a2-a04y	5	tcga-a2-a04y-d2733	ea8b13ac-f088-4440-a155-06c71299a37e	149	659	herceptin	no	targeted molecular therapy;	10037	mg		
+NULL	tcga-a2-a04y	6	tcga-a2-a04y-d2746	227dd2b0-0b22-46bd-95d4-20775978c5dd	372		arimidex	yes	hormone therapy;				
+NULL	tcga-a2-a04y	0	tcga-a2-a04y-d2729	bb88b686-73af-4f28-b19b-97bdb837eddb	93	135	cytoxan	no	chemotherapy;	4800	mg		
+NULL	tcga-a2-a0cq	1	tcga-a2-a0cq-d1986	664f836e-85b0-4c5f-8869-42321a27e983	99	162	cytoxan	no	chemotherapy;	4176	mg		
+NULL	tcga-a2-a0cq	2	tcga-a2-a0cq-d1988	865e1c55-d241-4076-bd9a-0bffed3475aa	201		arimidex	yes	hormone therapy;				
+NULL	tcga-a2-a0cq	3	tcga-a2-a0cq-d1990	71de8349-bb98-4691-8138-1cdcc08f849c	492	628	ae-37	no	immunotherapy;	600	ug		
+NULL	tcga-a2-a0cq	0	tcga-a2-a0cq-d1987	3bae8101-5295-4dd1-b21f-31ed7bf92ec2	99	162	adriamycin	no	chemotherapy;	416	mg		
+NULL	tcga-a2-a1g4	1	tcga-a2-a1g4-d12345	6491326b-97e4-4bc3-bc1b-3420c081b2bf	80	185	adriamycin	no	chemotherapy;	480	mg		
+NULL	tcga-a2-a1g4	2	tcga-a2-a1g4-d12346	59b0a147-3154-47c9-907a-765fdba4002d	80	185	taxotere	no	chemotherapy;	720	mg		
+NULL	tcga-a2-a1g4	3	tcga-a2-a1g4-d12344	5971ea22-14b8-49be-8ee4-c621e8529ea7	80	185	cytoxan	no	chemotherapy;	4770	mg		
+NULL	tcga-a2-a1g4	0	tcga-a2-a1g4-d12347	f7d16c97-46c7-4712-83cb-f31c52b38ea4	207		femara	yes	hormone therapy;				
+NULL	tcga-a2-a25a	1	tcga-a2-a25a-d14585	cd0f0b87-4be9-4070-bc27-f4217bb6f250			femara		hormone therapy;				
+NULL	tcga-a2-a25a	2	tcga-a2-a25a-d14583	37b653a5-16f9-4cfa-91c8-7aae12b3d81d			cytoxan		chemotherapy;				
+NULL	tcga-a2-a25a	3	tcga-a2-a25a-d14584	cdab626b-3efa-48b1-a671-c525e974334c			taxol		chemotherapy;				
+NULL	tcga-a2-a25a	0	tcga-a2-a25a-d14581	dae723e3-48c2-47c6-932f-b670c43aaef1			adriamycin		chemotherapy;				
+NULL	tcga-a7-a0cd	0	tcga-a7-a0cd-d4373	94451533-8be6-41aa-a175-9eaa6aae7381	112		arimidex	yes	hormone therapy;				
+NULL	tcga-a7-a13g	1	tcga-a7-a13g-d35038	beeda94d-d6c3-4811-a18e-aa495a0ef9c3	33		arimidex	yes	hormone therapy;			no	
+NULL	tcga-a7-a13g	0	tcga-a7-a13g-d17698	123a3e9a-d014-419e-93fc-e001c3b336b2	33		arimidex	yes	hormone therapy;	376	mg		
+NULL	tcga-a7-a26e	1	tcga-a7-a26e-d14334	0c2b9a8f-545c-48c7-a411-6086687670a8	247		arimidex	yes	hormone therapy;		mg		
+NULL	tcga-a7-a26e	2	tcga-a7-a26e-d14322	c7645868-53fa-4051-9eee-5f7f6fd7deb5	101	164	cytoxan	no	chemotherapy;	4000	mg		
+NULL	tcga-a7-a26e	0	tcga-a7-a26e-d14323	bfcadec4-0e84-4052-ba0c-c5f91dcde496	101	164	taxotere	no	chemotherapy;	520	mg		
+NULL	tcga-a7-a26f	1	tcga-a7-a26f-d15011	52516e85-91df-4339-92fc-15606ca08875	77	140	cytoxan	no	chemotherapy;	4800	mg		
+NULL	tcga-a7-a26f	0	tcga-a7-a26f-d15010	c3fd872c-2a13-45ef-9151-361979053f67	77	140	taxotere	no	chemotherapy;	600	mg		
+NULL	tcga-a7-a26h	1	tcga-a7-a26h-d29623	b0a12ecd-cf75-4ae7-be0d-05d694119222	311	486	taxol	no	chemotherapy;	1535	mg		
+NULL	tcga-a7-a26h	0	tcga-a7-a26h-d29622	5abd5ae2-14dc-45d0-8cd9-c1ce4ee9a336	44	296	anastrozole	no	hormone therapy;	253	mg		

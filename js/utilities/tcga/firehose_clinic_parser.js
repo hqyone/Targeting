@@ -6,7 +6,8 @@
 
 var fs = require('fs');
 var path = require('path');
-var readline = require('readline');
+const readline = require('readline');
+var share = require('../share.js');
 var __=require('underscore');
 var patient = require("../normalized_model/patient.js");
 var malignancy = require("../normalized_model/malignancy.js");
@@ -195,7 +196,9 @@ JSON.flatten = function(data) {
 }**/
 
 
-var read_table_file = function(filepath){
+var read_table_file = function(filepath, outdir, lineage){
+    //clear outdir
+    share.deleteFolderRecursive(outdir,false);
     var rd = readline.createInterface({
         input: fs.createReadStream(filepath),
         output: process.stdout,
@@ -206,7 +209,6 @@ var read_table_file = function(filepath){
     //var followups={};
     var patient_num = 0;
     var patient_ls =[];
-
     rd.on('line', function(line) {
         if (patient_num == 0){
             patient_num = line.split("\t").length-1;
@@ -230,6 +232,12 @@ var read_table_file = function(filepath){
             n_patient_ls.push(tcga_2_normal_patient(patient_ls[i].patient));
         }
         patient_ls_2_json(n_patient_ls,patient_json_file);
+        if (outdir!=undefined && outdir!=undefined){
+            for (var i=0; i<n_patient_ls.length; i++){
+                var p =  n_patient_ls[i];
+                p.WriteToDBTables(outdir,lineage)
+            }
+        }
         return n_patient_ls;  //This can be store in memory
     })
 }
@@ -408,13 +416,13 @@ var tcga_2_normal_patient =function(TCGA_patient, lineage_ID){
             var match=key.match(/\d+/);
             t.i=match==null?0:match[0]-1;
             t.p_bc = p.bc;
-            t.dc = getAttribute(cur_drug,"bcr_drug_barcode");
+            t.bc = getAttribute(cur_drug,"bcr_drug_barcode");
             t.uu = getAttribute(cur_drug,"bcr_drug_uuid");
             t.e_days = getAttribute(cur_drug,"days_to_drug_therapy_end");
             t.s_days = getAttribute(cur_drug,"days_to_drug_therapy_start");
             t.name = getAttribute(cur_drug,"drug_name");
             t.ongoing = getAttribute(cur_drug,"therapy_ongoing");
-            t.type = getAttribute(cur_drug,"therapy_types");
+            t.type = getAttribute(cur_drug,"therapy_types").replace("therapy_type:","");
             t.dose = getAttribute(cur_drug,"total_dose");
             t.unit = getAttribute(cur_drug,"total_dose_units");
             t.tx_trial = getAttribute(cur_drug,"tx_on_clinical_trial");
@@ -482,6 +490,9 @@ var tcga_2_normal_patient =function(TCGA_patient, lineage_ID){
                     if (mkey.startsWith("administered_drug")){
                         var t = new treatment.Treatment();
                         var m_match = mkey.match(/\d+/);
+                        t.p_bc = m.p_bc;
+                        t.bc = m.bc;
+                        t.uu = m.uu;
                         t.i = m_match==null?0:m_match[0]-1;
                         t.name = cur_m.drug_tx[mkey]["drug_name"];
                         if (cur_m.drug_tx.days_to_drug_therapy_start!=undefined){
@@ -499,7 +510,7 @@ var tcga_2_normal_patient =function(TCGA_patient, lineage_ID){
             if (cur_m["surgery"]!=undefined){
                 m.surgery = getAttribute(cur_m["surgery"],"surgery_indicator")
             }
-            m.dx_days = parseInt(getAttribute(cur_m, "days_to_other_malignancy_dx"));
+            m.dx_days = getAttribute(cur_m, "days_to_other_malignancy_dx");
             p.malignancys.push(m);
         }
     }
@@ -518,8 +529,37 @@ project_path_ls.pop();
 var clinic_file =project_path_ls.join("/")+'/data/BRCA.clin.merged_test.txt';
 //var clinic_file =project_path_ls.join("/")+'/data/LUSC.merge_clin_test.txt';
 var patient_json_file = project_path_ls.join("/")+'/public/data/patient.json';
+var tab_dir  = project_path_ls.join("/")+'/data/tab_files';
 
 //var clinic_file = "/Users/qhe/Documents/Databases/TCGA/firehose/key_data/lusc/gdac.broadinstitute.org_LUSC.Merge_Clinical.Level_1.2016012800.0.0/LUSC.clin.merged_test.txt";
 //var json = JSON.unflatten({"patient.stage_event.tnm_categories.pathologic_categories.pathologic_n":false});
-var patient_ls = read_table_file(clinic_file);
+var patient_ls = read_table_file('/Users/hqyone/WebstormProjects/Targeting/data/BRCA.clin.merged_test.txt',"/Users/hqyone/WebstormProjects/Targeting/data/tab_files","BRCA");
+
 console.log("xx");
+
+/** SQL to load the data files into tables
+ *
+ truncate table targeting.patient;
+
+ LOAD DATA local INFILE '/Users/hqyone/WebstormProjects/Targeting/data/tab_files/patient.tsv' INTO TABLE targeting.patient FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n';
+
+ truncate table targeting.followup;
+
+ LOAD DATA local INFILE '/Users/hqyone/WebstormProjects/Targeting/data/tab_files/followups.tsv' INTO TABLE targeting.followup FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n';
+
+ truncate table targeting.malignancy;
+
+ LOAD DATA local INFILE '/Users/hqyone/WebstormProjects/Targeting/data/tab_files/malignancy.tsv' INTO TABLE targeting.malignancy FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n';
+
+ truncate table targeting.radiation;
+
+ LOAD DATA local INFILE '/Users/hqyone/WebstormProjects/Targeting/data/tab_files/patient.tsv' INTO TABLE targeting.radiation FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n';
+
+ truncate table targeting.samples;
+
+ LOAD DATA local INFILE '/Users/hqyone/WebstormProjects/Targeting/data/tab_files/samples.tsv' INTO TABLE targeting.samples FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n';
+
+ truncate table targeting.treatment;
+
+ LOAD DATA local INFILE '/Users/hqyone/WebstormProjects/Targeting/data/tab_files/treatment.tsv' INTO TABLE targeting.treatment FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n';
+ */

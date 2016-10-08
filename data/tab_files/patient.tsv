@@ -1,0 +1,13 @@
+aat0	tcga-5l-aat0	86c6f993-327f-4525-9983-29c55625593a	42	c50.9	c50.9	8520/3	-15393				0	42	2010	female	white	stage iia	m0	n0	t2	breast	alive	tumor free		BRCA
+aat1	tcga-5l-aat1	16fc3677-0393-4ed1-ad3f-c8355f056369	63	c50.9	c50.9	8520/3	-23225				0	63	2010	female	white	stage iv	m1	n0	t2	breast	alive	with tumor		BRCA
+a0sp	tcga-a1-a0sp	a9bb8159-32f0-454c-a946-b3286a52b9d5	40	c50.9	c50.9	8500/3	-14954				0	40	2007	female		stage iia	m0	n0 (i-)	t2	breast	alive	tumor free		BRCA
+a04v	tcga-a2-a04v	64f67506-f2df-4f0a-b7be-29b4949e986a	39	c50.9	c50.9	8500/3	-14250	1920			0	39	2005	female	white	stage iia	m0	n0 (i-)	t2	breast	dead	with tumor		BRCA
+a04y	tcga-a2-a04y	9ce7ce09-4409-4fa3-9f78-b2b24716f860	53	c50.9	c50.9	8500/3	-19533				0	53	2008	female	white	stage iib	m0	n1mi	t2	breast	alive	tumor free		BRCA
+a0cq	tcga-a2-a0cq	ab34a9a2-d72d-4106-94fb-118844b1b60b	62	c50.9	c50.9	8500/3	-22810				0	62	2003	female	black or african american	stage ia	m0	n0 (i-)	t1	breast	alive	tumor free		BRCA
+a1g4	tcga-a2-a1g4	e3b555aa-7f0a-49c6-9b13-182c61a144c1	71	c50.9	c50.9	8500/3	-25966				0	71	2010	female	white	stage iiia	m0	n1a	t3	breast	alive	tumor free		BRCA
+a25a	tcga-a2-a25a	aaea5f9c-b35b-47f8-93cb-bdc7b81844ff	44	c50.9	c50.9	8520/3	-16084				0	44	2003	female	white	stage iia	m0	n0 (i-)	t2	breast	alive	tumor free		BRCA
+a0cd	tcga-a7-a0cd	09765b0a-94f6-47d2-af56-93368084ac3a	66	c50.9	c50.9	8500/3	-24242				0	66	2009	female	white	stage i	m0	n0	t1	breast	alive	tumor free		BRCA
+a13g	tcga-a7-a13g	6cd9baf5-bbe0-4c1e-a87f-c53b3af22890	79	c50.9	c50.9	8500/3	-28969				0	79	2010	female	white	stage iia	mx	n0	t2	breast	alive	tumor free		BRCA
+a26e	tcga-a7-a26e	011b9b2d-ebe5-42bf-9662-d922faccc7a1	71	c50.9	c50.9	8520/3	-26274				0	71	2010	female	white	stage iiia	mx	n1a	t3	breast	alive	tumor free		BRCA
+a26f	tcga-a7-a26f	3b7b9c1e-a84c-47ed-983c-9e4b00cbf01a	55	c50.9	c50.9	8575/3	-20210				0	55	2010	female	white	stage ia	m0	n0	t1	breast	alive			BRCA
+a26h	tcga-a7-a26h	dddd8e2f-e540-418a-b02e-698d18a12c14	72	c50.9	c50.9	8500/3	-26423				0	72	2011	female	white	stage iia	m0	n1a	t1	breast	alive			BRCA

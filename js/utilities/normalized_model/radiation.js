@@ -1,6 +1,8 @@
 /**
  * Created by qhe on 7/20/16.
  */
+
+var fs = require('fs');
 var radiation_abb_dic={
     p_bc:"patient_barcode",
     i:"index",
@@ -33,6 +35,30 @@ function Radiation(){
     this.type="";
     this.reg="";
 }
+
+Radiation.prototype.WriteToDBTables =function(outdir){
+    var self =  this;
+    var tab_file = outdir+"/radiation.tsv";
+    var content_ls = [];
+    content_ls.push('NULL');
+    content_ls.push(self.p_bc);
+    content_ls.push(self.i);
+    content_ls.push(self.bc);
+    content_ls.push(self.uu);
+    content_ls.push(self.cn);
+
+    content_ls.push(self.s_days);
+    content_ls.push(self.e_days);
+    content_ls.push(self.frac);
+    content_ls.push(self.dosage);
+    content_ls.push(self.units);
+
+    content_ls.push(self.ongoing);
+    content_ls.push(self.type);
+    content_ls.push(self.reg);
+
+    fs.appendFileSync(tab_file, content_ls.join("\t")+"\n", encoding='utf8');
+};
 
 
 Radiation.prototype.toTreeJson=function(id){
